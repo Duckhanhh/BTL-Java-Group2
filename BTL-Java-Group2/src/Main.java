@@ -1,9 +1,7 @@
-import java.util.Scanner;
+import Controller.MotelController;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("vanhdeptry");
-        System.out.println("");
+        System.out.println(MotelController.getInstance().addMotel("HN"));
     }
 }
