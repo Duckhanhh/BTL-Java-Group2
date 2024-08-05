@@ -2,22 +2,22 @@ package Model;
 
 public class DiaChi {
     private int id;
-    private int so_nha;
-    private String ten_duong;
-    private String ten_phuong_xa;
-    private String ten_quan_huyen;
-    private String ten_tinh_thanh_pho;
+    private int soNha;
+    private String tenDuong;
+    private String tenPhuongXa;
+    private String tenQuanHuyen;
+    private String tenTinhThanhPho;
 
     public DiaChi() {
     }
 
-    public DiaChi(int id, int so_nha, String ten_duong, String ten_phuong_xa, String ten_quan_huyen, String ten_tinh_thanh_pho) {
+    public DiaChi(int id, int soNha, String tenDuong, String tenPhuongXa, String tenQuanHuyen, String tenTinhThanhPho) {
         this.id = id;
-        this.so_nha = so_nha;
-        this.ten_duong = ten_duong;
-        this.ten_phuong_xa = ten_phuong_xa;
-        this.ten_quan_huyen = ten_quan_huyen;
-        this.ten_tinh_thanh_pho = ten_tinh_thanh_pho;
+        this.soNha = soNha;
+        this.tenDuong = tenDuong;
+        this.tenPhuongXa = tenPhuongXa;
+        this.tenQuanHuyen = tenQuanHuyen;
+        this.tenTinhThanhPho = tenTinhThanhPho;
     }
 
     public int getId() {
@@ -28,55 +28,55 @@ public class DiaChi {
         this.id = id;
     }
 
-    public int getSo_nha() {
-        return so_nha;
+    public int getSoNha() {
+        return soNha;
     }
 
-    public void setSo_nha(int so_nha) {
-        this.so_nha = so_nha;
+    public void setSoNha(int soNha) {
+        this.soNha = soNha;
     }
 
-    public String getTen_duong() {
-        return ten_duong;
+    public String getTenDuong() {
+        return tenDuong;
     }
 
-    public void setTen_duong(String ten_duong) {
-        this.ten_duong = ten_duong;
+    public void setTenDuong(String tenDuong) {
+        this.tenDuong = tenDuong;
     }
 
-    public String getTen_phuong_xa() {
-        return ten_phuong_xa;
+    public String getTenPhuongXa() {
+        return tenPhuongXa;
     }
 
-    public void setTen_phuong_xa(String ten_phuong_xa) {
-        this.ten_phuong_xa = ten_phuong_xa;
+    public void setTenPhuongXa(String tenPhuongXa) {
+        this.tenPhuongXa = tenPhuongXa;
     }
 
-    public String getTen_quan_huyen() {
-        return ten_quan_huyen;
+    public String getTenQuanHuyen() {
+        return tenQuanHuyen;
     }
 
-    public void setTen_quan_huyen(String ten_quan_huyen) {
-        this.ten_quan_huyen = ten_quan_huyen;
+    public void setTenQuanHuyen(String tenQuanHuyen) {
+        this.tenQuanHuyen = tenQuanHuyen;
     }
 
-    public String getTen_tinh_thanh_pho() {
-        return ten_tinh_thanh_pho;
+    public String getTenTinhThanhPho() {
+        return tenTinhThanhPho;
     }
 
-    public void setTen_tinh_thanh_pho(String ten_tinh_thanh_pho) {
-        this.ten_tinh_thanh_pho = ten_tinh_thanh_pho;
+    public void setTenTinhThanhPho(String tenTinhThanhPho) {
+        this.tenTinhThanhPho = tenTinhThanhPho;
     }
 
     @Override
     public String toString() {
         return "DiaChi{" +
                 "id=" + id +
-                ", so_nha=" + so_nha +
-                ", ten_duong='" + ten_duong + '\'' +
-                ", ten_phuong_xa='" + ten_phuong_xa + '\'' +
-                ", ten_quan_huyen='" + ten_quan_huyen + '\'' +
-                ", ten_tinh_thanh_pho='" + ten_tinh_thanh_pho + '\'' +
+                ", soNha=" + soNha +
+                ", tenDuong='" + tenDuong + '\'' +
+                ", tenPhuongXa='" + tenPhuongXa + '\'' +
+                ", tenQuanHuyen='" + tenQuanHuyen + '\'' +
+                ", tenTinhThanhPho='" + tenTinhThanhPho + '\'' +
                 '}';
     }
 }
