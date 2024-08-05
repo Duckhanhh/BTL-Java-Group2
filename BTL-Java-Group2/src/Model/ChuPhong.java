@@ -1,6 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class ChuPhong {
@@ -13,11 +12,11 @@ public class ChuPhong {
     private String tenTaiKhoan;
     private String matKhau;
 
-    public chuphong() {
+    public ChuPhong() {
 
     }
 
-    public chuphong(String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt, List<Phong> danhSachPhong, String tenTaiKhoan, String matKhau) {
+    public ChuPhong(String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt, List<Phong> danhSachPhong, String tenTaiKhoan, String matKhau) {
         this.hoTen = hoTen;
         this.ngaySinh = ngaySinh;
         this.gioiTinh = gioiTinh;
