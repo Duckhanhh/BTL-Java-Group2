@@ -3,106 +3,92 @@ package Model;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class chuphong {
-    private  String hoten;
-    private Date ngaysinh;
-    private String gioitinh;
+public class ChuPhong {
+    private String hoTen;
+    private Date ngaySinh;
+    private String gioiTinh;
     private String CCCD;
-    private String sodt;
-    private List<Phong> danhsachphong;
-    private String tentk;
-    private String matkhau;
+    private String soDt;
+    private List<Phong> danhSachPhong;
+    private String tenTaiKhoan;
+    private String matKhau;
 
-    chuphong(){
+    public chuphong() {
 
     }
-    public chuphong(String hoten,Date ngaysinh , String gioitinh,String CCCD,String sodt,String tentk,String matkhau,List<Tro> danhsachtro){
-        this.hoten = hoten;
-        this.ngaysinh = ngaysinh;
-        this.gioitinh = gioitinh;
+
+    public chuphong(String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt, List<Phong> danhSachPhong, String tenTaiKhoan, String matKhau) {
+        this.hoTen = hoTen;
+        this.ngaySinh = ngaySinh;
+        this.gioiTinh = gioiTinh;
         this.CCCD = CCCD;
-        this.sodt = sodt;
-        this.tentk = tentk;
-        this.matkhau = matkhau;
-        this.danhsachtro = danhsachtro;
+        this.soDt = soDt;
+        this.danhSachPhong = danhSachPhong;
+        this.tenTaiKhoan = tenTaiKhoan;
+        this.matKhau = matKhau;
     }
 
-    public String getHoten() {
-        return hoten;
+    public String getHoTen() {
+        return hoTen;
     }
 
-    public Date getNgaysinh() {
-        return ngaysinh;
+    public void setHoTen(String hoTen) {
+        this.hoTen = hoTen;
     }
 
-    public String getGioitinh() {
-        return gioitinh;
+    public Date getNgaySinh() {
+        return ngaySinh;
+    }
+
+    public void setNgaySinh(Date ngaySinh) {
+        this.ngaySinh = ngaySinh;
+    }
+
+    public String getGioiTinh() {
+        return gioiTinh;
+    }
+
+    public void setGioiTinh(String gioiTinh) {
+        this.gioiTinh = gioiTinh;
     }
 
     public String getCCCD() {
         return CCCD;
     }
 
-    public String getSodt() {
-        return sodt;
-    }
-
-    public List<Phong> getDanhsachtro() {
-        return danhsachphong;
-    }
-
-    public String getTentk() {
-        return tentk;
-    }
-
-    public String getMatkhau() {
-        return matkhau;
-    }
-
-    public void setHoten(String hoten) {
-        this.hoten = hoten;
-    }
-
-    public void setNgaysinh(Date ngaysinh) {
-        this.ngaysinh = ngaysinh;
-    }
-
-    public void setGioitinh(String gioitinh) {
-        this.gioitinh = gioitinh;
-    }
-
     public void setCCCD(String CCCD) {
         this.CCCD = CCCD;
     }
 
-    public void setSodt(String sodt) {
-        this.sodt = sodt;
+    public String getSoDt() {
+        return soDt;
     }
 
-    public void setDanhsachtro(List<Phong> danhsachtro) {
-        this.danhsachphong = danhsachphong;
+    public void setSoDt(String soDt) {
+        this.soDt = soDt;
     }
 
-    public void setTentk(String tentk) {
-        this.tentk = tentk;
+    public List<Phong> getDanhSachPhong() {
+        return danhSachPhong;
     }
 
-    public void setMatkhau(String matkhau) {
-        this.matkhau = matkhau;
+    public void setDanhSachPhong(List<Phong> danhSachPhong) {
+        this.danhSachPhong = danhSachPhong;
     }
 
-    @Override
-    public String toString() {
-        return "chutro{" +
-                "hoten='" + hoten + '\'' +
-                ", ngaysinh=" + ngaysinh +
-                ", gioitinh='" + gioitinh + '\'' +
-                ", CCCD='" + CCCD + '\'' +
-                ", sodt='" + sodt + '\'' +
-                ", danhsachtro=" + danhsachphong +
-                ", tentk='" + tentk + '\'' +
-                ", matkhau='" + matkhau + '\'' +
-                '}';
+    public String getTenTaiKhoan() {
+        return tenTaiKhoan;
+    }
+
+    public void setTenTaiKhoan(String tenTaiKhoan) {
+        this.tenTaiKhoan = tenTaiKhoan;
+    }
+
+    public String getMatKhau() {
+        return matKhau;
+    }
+
+    public void setMatKhau(String matKhau) {
+        this.matKhau = matKhau;
     }
 }
-
