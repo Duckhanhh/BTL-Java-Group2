@@ -3,33 +3,34 @@ package Model;
 import java.io.File;
 
 public class Phong {
-    private DiaChi address;
+    private DiaChi diaChi;
     private double gia;
-    private String mota;
-    private double dientich;
-    private File hinhanh;
-    private chuphong chu;
-    private Client KH;
+    private String moTa;
+    private double dienTich;
+    private File hinhAnh;
+    private ChuPhong chu;
+    private KhachHang khach;
 
     public Phong() {
+
     }
 
-    public Phong(DiaChi address, double gia, String mota, double dientich, File hinhanh, chuphong chu, Client KH) {
-        this.address = address;
+    public Phong(DiaChi diaChi, double gia, String moTa, double dienTich, File hinhAnh, ChuPhong chu, KhachHang khach) {
+        this.diaChi = diaChi;
         this.gia = gia;
-        this.mota = mota;
-        this.dientich = dientich;
-        this.hinhanh = hinhanh;
+        this.moTa = moTa;
+        this.dienTich = dienTich;
+        this.hinhAnh = hinhAnh;
         this.chu = chu;
-        this.KH = KH;
+        this.khach = khach;
     }
 
-    public DiaChi getAddress() {
-        return address;
+    public DiaChi getDiaChi() {
+        return diaChi;
     }
 
-    public void setAddress(DiaChi address) {
-        this.address = address;
+    public void setDiaChi(DiaChi diaChi) {
+        this.diaChi = diaChi;
     }
 
     public double getGia() {
@@ -40,43 +41,43 @@ public class Phong {
         this.gia = gia;
     }
 
-    public String getMota() {
-        return mota;
+    public String getMoTa() {
+        return moTa;
     }
 
-    public void setMota(String mota) {
-        this.mota = mota;
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
     }
 
-    public double getDientich() {
-        return dientich;
+    public double getDienTich() {
+        return dienTich;
     }
 
-    public void setDientich(double dientich) {
-        this.dientich = dientich;
+    public void setDienTich(double dienTich) {
+        this.dienTich = dienTich;
     }
 
-    public File getHinhanh() {
-        return hinhanh;
+    public File getHinhAnh() {
+        return hinhAnh;
     }
 
-    public void setHinhanh(File hinhanh) {
-        this.hinhanh = hinhanh;
+    public void setHinhAnh(File hinhAnh) {
+        this.hinhAnh = hinhAnh;
     }
 
-    public chuphong getChu() {
+    public ChuPhong getChu() {
         return chu;
     }
 
-    public void setChu(chuphong chu) {
+    public void setChu(ChuPhong chu) {
         this.chu = chu;
     }
 
-    public Client getKH() {
-        return KH;
+    public KhachHang getKhach() {
+        return khach;
     }
 
-    public void setKH(Client KH) {
-        this.KH = KH;
+    public void setKhach(KhachHang khach) {
+        this.khach = khach;
     }
 }
