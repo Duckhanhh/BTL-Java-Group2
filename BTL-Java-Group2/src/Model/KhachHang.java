@@ -12,7 +12,7 @@ public class KhachHang {
     private String email;
     private String matKhau;
 
-    private List<Phong> listPhong = new ArrayList<>();
+    private List<Phong> listPhong;
 
     public KhachHang() {
     }
