@@ -3,6 +3,7 @@ package Model;
 import java.io.File;
 
 public class Phong {
+    private int id;
     private DiaChi diaChi;
     private double gia;
     private String moTa;
@@ -12,10 +13,10 @@ public class Phong {
     private KhachHang khach;
 
     public Phong() {
-
     }
 
-    public Phong(DiaChi diaChi, double gia, String moTa, double dienTich, File hinhAnh, ChuPhong chu, KhachHang khach) {
+    public Phong(int id, DiaChi diaChi, double gia, String moTa, double dienTich, File hinhAnh, ChuPhong chu, KhachHang khach) {
+        this.id = id;
         this.diaChi = diaChi;
         this.gia = gia;
         this.moTa = moTa;
@@ -23,6 +24,14 @@ public class Phong {
         this.hinhAnh = hinhAnh;
         this.chu = chu;
         this.khach = khach;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public DiaChi getDiaChi() {
