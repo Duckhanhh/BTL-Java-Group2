@@ -1,4 +1,4 @@
-package Repo;
+package Repo.DAO;
 
 import java.util.List;
 
@@ -7,5 +7,5 @@ public interface DAOinterface<T> {
     public void update(T obj);
     public void delete(T obj);
     public T findById(int id);
-    public List<T> findAll();
+    public List<T> findPhong(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, int timKiemGiaTu);
 }
