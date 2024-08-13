@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ChuPhong {
+    private int id;
     private String hoTen;
     private Date ngaySinh;
     private String gioiTinh;
@@ -17,7 +18,8 @@ public class ChuPhong {
 
     }
 
-    public ChuPhong(String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt, List<Phong> danhSachPhong, String tenTaiKhoan, String matKhau) {
+    public ChuPhong(int id, String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt, List<Phong> danhSachPhong, String tenTaiKhoan, String matKhau) {
+        this.id = id;
         this.hoTen = hoTen;
         this.ngaySinh = ngaySinh;
         this.gioiTinh = gioiTinh;
@@ -26,6 +28,14 @@ public class ChuPhong {
         this.danhSachPhong = danhSachPhong;
         this.tenTaiKhoan = tenTaiKhoan;
         this.matKhau = matKhau;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getHoTen() {
