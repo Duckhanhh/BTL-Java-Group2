@@ -14,31 +14,30 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
     }
 
     @Override
-    public void insert(ChuPhong chuPhong) {
-        try {
-            Connection con = JDBCUtil.getConnection();
-            String query = "INSERT INTO chuPhong VALUES(?,?,?,?,?,?,?,?,?)";
-            try (PreparedStatement ps = con.prepareStatement(query)){
-                ps.setInt(1, chuPhong.getId());
-                ps.setString(2, chuPhong.getHoTen());
-                ps.setDate(3, (Date) chuPhong.getNgaySinh());
-                ps.setString(4, chuPhong.getGioiTinh());
-                ps.setString(5, chuPhong.getCCCD());
-                ps.setString(6, chuPhong.getSoDt());
-                ps.setString(7, chuPhong.getTenTaiKhoan());
-                ps.setString(8, chuPhong.getMatKhau());
-                ps.execute();
-            }
-            JDBCUtil.closeConnection(con);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public void insert(ChuPhong obj) {
 
     }
 
     @Override
-    public void update(ChuPhong obj) {
-
+    public void update(ChuPhong chuPhong) {
+        try{
+            Connection conn = JDBCUtil.getConnection();
+            String query = "UPDATE ChuPhong SET hoTen = ?, ngaySinh = ?, gioiTinh = ?, CCCD = ?, soDt = ?, tenTaiKhoan = ?, matKhau = ? WHERE id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(query)){
+                ps.setString(1, chuPhong.getHoTen());
+                ps.setDate(2, (Date) chuPhong.getNgaySinh());
+                ps.setString(3, chuPhong.getGioiTinh());
+                ps.setString(4, chuPhong.getCCCD());
+                ps.setString(5, chuPhong.getSoDt());
+                ps.setString(6, chuPhong.getTenTaiKhoan());
+                ps.setString(7, chuPhong.getMatKhau());
+                ps.setInt(8, chuPhong.getId());
+                ps.execute();
+            }
+            JDBCUtil.closeConnection(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -48,6 +47,7 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
             String query = "DELETE FROM chuPhong WHERE id = ?";
             try (PreparedStatement ps = con.prepareStatement(query)){
                 ps.setInt(1, chuPhong.getId());
+                ps.execute();
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e){

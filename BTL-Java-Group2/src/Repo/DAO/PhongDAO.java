@@ -1,6 +1,5 @@
 package Repo.DAO;
 
-import Model.ChuPhong;
 import Model.Phong;
 import database.JDBCUtil;
 
