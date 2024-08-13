@@ -1,8 +1,8 @@
 package Model;
 
 public class DiaChi {
-    private int id;
-    private int soNha;
+    private Long id;
+    private Long soNha;
     private String tenDuong;
     private String tenPhuongXa;
     private String tenQuanHuyen;
@@ -11,7 +11,7 @@ public class DiaChi {
     public DiaChi() {
     }
 
-    public DiaChi(int id, int soNha, String tenDuong, String tenPhuongXa, String tenQuanHuyen, String tenTinhThanhPho) {
+    public DiaChi(Long id, Long soNha, String tenDuong, String tenPhuongXa, String tenQuanHuyen, String tenTinhThanhPho) {
         this.id = id;
         this.soNha = soNha;
         this.tenDuong = tenDuong;
@@ -20,19 +20,19 @@ public class DiaChi {
         this.tenTinhThanhPho = tenTinhThanhPho;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getSoNha() {
+    public Long getSoNha() {
         return soNha;
     }
 
-    public void setSoNha(int soNha) {
+    public void setSoNha(Long soNha) {
         this.soNha = soNha;
     }
 

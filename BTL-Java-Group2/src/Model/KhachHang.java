@@ -1,10 +1,12 @@
 package Model;
 
+import java.util.Date;
 import java.util.List;
 
 public class KhachHang {
+    private Long id;
     private String hoTen;
-    private Integer namSinh;
+    private Date namSinh;
     private String gioiTinh;
     private String cccd;
     private String soDienThoai;
@@ -16,7 +18,8 @@ public class KhachHang {
     public KhachHang() {
     }
 
-    public KhachHang(String hoTen, Integer namSinh, String gioiTinh, String cccd, String soDienThoai, String email, String matKhau) {
+    public KhachHang(Long id, String hoTen, Date namSinh, String gioiTinh, String cccd, String soDienThoai, String email, String matKhau) {
+        this.id = id;
         this.hoTen = hoTen;
         this.namSinh = namSinh;
         this.gioiTinh = gioiTinh;
@@ -24,6 +27,14 @@ public class KhachHang {
         this.soDienThoai = soDienThoai;
         this.email = email;
         this.matKhau = matKhau;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getHoTen() {
@@ -34,11 +45,11 @@ public class KhachHang {
         this.hoTen = hoTen;
     }
 
-    public Integer getNamSinh() {
+    public Date getNamSinh() {
         return namSinh;
     }
 
-    public void setNamSinh(Integer namSinh) {
+    public void setNamSinh(Date namSinh) {
         this.namSinh = namSinh;
     }
 
@@ -89,4 +100,6 @@ public class KhachHang {
     public void setListPhong(List<Phong> listPhong) {
         this.listPhong = listPhong;
     }
+
 }
+
