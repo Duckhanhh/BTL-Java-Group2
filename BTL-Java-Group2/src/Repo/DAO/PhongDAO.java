@@ -18,7 +18,7 @@ public class PhongDAO implements DAOinterface<Phong> {
     @Override
     public void insert(Phong phong) {
         try {
-            Connection con = JDBCUtil.getConnection();
+            Connection con = JDBCUtil.getConnection() ;
             String query = "INSERT INTO Tro VALUES(?,?,?,?,?,?,?,?)";
             try (PreparedStatement ps = con.prepareStatement(query)) {
                 ps.setLong(1, phong.getId());
@@ -70,7 +70,7 @@ public class PhongDAO implements DAOinterface<Phong> {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Phong p = new Phong();
-                    p.setId(rs.getInt("id"));
+                    p.setId(rs.getLong("id"));
                     int idChuPhong = rs.getInt("ChuTroID");
                     p.setChu(ChuPhongDAO.getInstance().findById(idChuPhong));
                     list.add(p);

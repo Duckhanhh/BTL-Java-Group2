@@ -25,7 +25,7 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
     @Override
     public void delete(ChuPhong obj) {
         try {
-            Connection con = JDBCUtil.getConnection();
+            Connection con = JDBCUtil.getConnection() ;
             String query = "DELETE FROM ChuTro WHERE ChuTroID=?";
             try(PreparedStatement ps = con.prepareStatement(query)) {
                 ps.setLong(1, obj.getId());
