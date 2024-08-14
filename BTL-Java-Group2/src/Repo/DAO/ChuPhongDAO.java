@@ -1,10 +1,15 @@
 package Repo.DAO;
 
 import Model.ChuPhong;
+import Model.DiaChi;
+import Model.KhachHang;
+import Model.Phong;
 
 import java.util.List;
 
 public class ChuPhongDAO implements DAOinterface<ChuPhong>{
+
+
     public static ChuPhongDAO getInstance() {
         return new ChuPhongDAO();
     }
@@ -25,7 +30,7 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
     }
 
     @Override
-    public ChuPhong findById(int id) {
+    public ChuPhong findById(Long id) {
         return null;
     }
 
@@ -33,4 +38,11 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
     public List<ChuPhong> findPhong(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, int timKiemGiaTu) {
         return List.of();
     }
+
+    @Override
+    public void updatePhong(Long id, DiaChi diaChi, double gia, String moTa, double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
+
+    }
+
+
 }
