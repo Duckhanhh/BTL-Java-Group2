@@ -23,11 +23,11 @@ public class PhongDAO implements DAOinterface<Phong> {
                     phong.getGia() == 0.0 || phong.getMoTa() == null ||
                     phong.getDienTich() == 0.0 || phong.getHinhAnh() == null) {
 
-                throw new IllegalArgumentException("các trường không duoc trong.");
+                throw new IllegalArgumentException("loi cac truong khong duoc trong");
             }
 
             Connection con = JDBCUtil.getConnection();
-            String query = "INSERT INTO Phong (id, diaChi, gia, moTa, dienTich, hinhAnh, chu, khach) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Tro VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement ps = con.prepareStatement(query)) {
                 ps.setLong(1, phong.getId());
                 ps.setObject(2, phong.getDiaChi());
