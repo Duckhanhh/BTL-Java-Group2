@@ -18,22 +18,32 @@ public class PhongDAO implements DAOinterface<Phong> {
     @Override
     public void insert(Phong phong) {
         try {
-            Connection con = JDBCUtil.getConnection() ;
-            String query = "INSERT INTO Tro VALUES(?,?,?,?,?,?,?,?)";
+
+            if (phong.getId() == null || phong.getDiaChi() == null ||
+                    phong.getGia() == 0.0 || phong.getMoTa() == null ||
+                    phong.getDienTich() == 0.0 || phong.getHinhAnh() == null) {
+
+                throw new IllegalArgumentException("các trường không duoc trong.");
+            }
+
+            Connection con = JDBCUtil.getConnection();
+            String query = "INSERT INTO Phong (id, diaChi, gia, moTa, dienTich, hinhAnh, chu, khach) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement ps = con.prepareStatement(query)) {
                 ps.setLong(1, phong.getId());
-                ps.setObject(2,phong.getDiaChi());
-                ps.setDouble(3,phong.getGia());
-                ps.setString(4,phong.getMoTa());
-                ps.setDouble(5,phong.getDienTich());
-                ps.setString(6,phong.getHinhAnh());
+                ps.setObject(2, phong.getDiaChi());
+                ps.setDouble(3, phong.getGia());
+                ps.setString(4, phong.getMoTa());
+                ps.setDouble(5, phong.getDienTich());
+                ps.setString(6, phong.getHinhAnh());
                 ps.setObject(7, phong.getChu());
                 ps.setObject(8, phong.getKhach());
 
-
-                ps.execute();
+                ps.executeUpdate();
             }
-            JDBCUtil.closeConnection(con) ;
+            JDBCUtil.closeConnection(con);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
