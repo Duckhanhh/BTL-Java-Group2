@@ -24,7 +24,7 @@ public class PhongDAO implements DAOinterface<Phong> {
                 ps.setLong(1, phong.getId());
                 ps.execute();
             }
-            JDBCUtil.closeConnection(con);
+            JDBCUtil.closeConnection(con) ;
         } catch (Exception e) {
             e.printStackTrace();
         }

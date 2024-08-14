@@ -22,7 +22,7 @@ public class KhachHangDAO implements DAOinterface<KhachHang> {
     @Override
     public void delete(KhachHang obj) {
         try {
-            Connection con = JDBCUtil.getConnection() ;
+            Connection con = JDBCUtil.getConnection();
             String query = "DELETE FROM KhachHang WHERE KhachHangID = ?";
             try(PreparedStatement ps = con.prepareStatement(query)) {
                 ps.setLong(1, obj.getId());
