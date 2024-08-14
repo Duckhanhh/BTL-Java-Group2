@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ChuPhong {
-    private long id;
+    private Long id;
     private String hoTen;
     private Date ngaySinh;
     private String gioiTinh;

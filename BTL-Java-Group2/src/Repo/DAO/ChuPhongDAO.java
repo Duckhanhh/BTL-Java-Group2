@@ -22,16 +22,53 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
     public void update(ChuPhong chuPhong) {
         try{
             Connection conn = JDBCUtil.getConnection();
-            String query = "UPDATE ChuPhong SET hoTen = ?, ngaySinh = ?, gioiTinh = ?, CCCD = ?, soDt = ?, tenTaiKhoan = ?, matKhau = ? WHERE id = ?";
-            try (PreparedStatement ps = conn.prepareStatement(query)){
-                ps.setString(1, chuPhong.getHoTen());
-                ps.setDate(2, (Date) chuPhong.getNgaySinh());
-                ps.setString(3, chuPhong.getGioiTinh());
-                ps.setString(4, chuPhong.getCCCD());
-                ps.setString(5, chuPhong.getSoDt());
-                ps.setString(6, chuPhong.getTenTaiKhoan());
-                ps.setString(7, chuPhong.getMatKhau());
-                ps.setLong(8, chuPhong.getId());
+            StringBuilder query = new StringBuilder("UPDATE ChuPhong SET ");
+            if (chuPhong.getHoTen() != null) {
+                query.append("hoTen = ?, ");
+            }
+            if (chuPhong.getNgaySinh() != null) {
+                query.append("ngaySinh = ?, ");
+            }
+            if (chuPhong.getGioiTinh() != null) {
+                query.append("gioiTinh = ?, ");
+            }
+            if (chuPhong.getCCCD() != null) {
+                query.append("CCCD = ?, ");
+            }
+            if (chuPhong.getSoDt() != null) {
+                query.append("soDt = ?, ");
+            }
+            if (chuPhong.getTenTaiKhoan() != null) {
+                query.append("tenTaiKhoan = ?, ");
+            }
+            if (chuPhong.getMatKhau() != null) {
+                query.append("matKhau = ?, ");
+            }
+            query.append(" WHERE id = ?");
+            try (PreparedStatement ps = conn.prepareStatement(query.toString())){
+                int index = 1;
+                if (chuPhong.getHoTen() != null) {
+                    ps.setString(index++, chuPhong.getHoTen());
+                }
+                if (chuPhong.getNgaySinh() != null) {
+                    ps.setDate(index++, new java.sql.Date(chuPhong.getNgaySinh().getTime()));
+                }
+                if (chuPhong.getGioiTinh() != null) {
+                    ps.setString(index++, chuPhong.getGioiTinh());
+                }
+                if (chuPhong.getCCCD() != null) {
+                    ps.setString(index++, chuPhong.getCCCD());
+                }
+                if (chuPhong.getSoDt() != null) {
+                    ps.setString(index++, chuPhong.getSoDt());
+                }
+                if (chuPhong.getTenTaiKhoan() != null) {
+                    ps.setString(index++, chuPhong.getTenTaiKhoan());
+                }
+                if (chuPhong.getMatKhau() != null) {
+                    ps.setString(index++, chuPhong.getMatKhau());
+                }
+                ps.setLong(index, chuPhong.getId());
                 ps.execute();
             }
             JDBCUtil.closeConnection(conn);

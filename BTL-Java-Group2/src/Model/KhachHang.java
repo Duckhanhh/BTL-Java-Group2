@@ -3,7 +3,7 @@ package Model;
 import java.util.List;
 
 public class KhachHang {
-    private long id;
+    private Long id;
     private String hoTen;
     private Integer namSinh;
     private String gioiTinh;
