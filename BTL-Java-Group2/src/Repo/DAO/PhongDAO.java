@@ -1,6 +1,7 @@
 package Repo.DAO;
 
 import Model.ChuPhong;
+import Model.KhachHang;
 import Model.Phong;
 import database.JDBCUtil;
 
@@ -21,7 +22,7 @@ public class PhongDAO implements DAOinterface<Phong> {
             Connection con = JDBCUtil.getConnection();
             String query = "INSERT INTO phong VALUES(?,?,?,?,?,?,?,?)";
             try (PreparedStatement ps = con.prepareStatement(query)) {
-                ps.setInt(1, phong.getId());
+                ps.setLong(1, phong.getId());
                 ps.execute();
             }
             JDBCUtil.closeConnection(con);
@@ -41,28 +42,68 @@ public class PhongDAO implements DAOinterface<Phong> {
     }
 
     @Override
-    public Phong findById(int id) {
+    public Phong findById(Long id) {
         return null;
     }
 
-    @Override
-    public List<Phong> findPhong(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, int timKiemGiaTu) {
+    public List<Phong> findPhong(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, int timKiemGiaTu, int timKiemGiaDen) {
         List<Phong> list = new ArrayList<>();
+        int num_col = 1;
         try {
             Connection con = JDBCUtil.getConnection();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(" SELECT * FROM phong WHERE 1=1 ");
+            stringBuilder.append(" SELECT * FROM Tro WHERE DiaChiID = (SELECT DiaChiID FROM DiaChi WHERE 1=1 ");
+            //Doan nay de hoan thien cau lenh sql
             if (Tinh != null) {
-                stringBuilder.append(" Tinh LIKE ? ");
+                stringBuilder.append(" AND TinhThanhPho LIKE ? ");
             }
+            if (Huyen != null) {
+                stringBuilder.append(" AND HuyenQuan LIKE ? ");
+            }
+            if (Xa != null) {
+                stringBuilder.append(" AND PhuongXa LIKE ? ");
+            }
+            if (TenDuong != null) {
+                stringBuilder.append(" AND TenDuong LIKE ? ");
+            }
+            if (soNha != null) {
+                stringBuilder.append(" AND SoNha LIKE ? ");
+            }
+            stringBuilder.append(" ) AND GiaPhong > ? AND GiaPhong < ? ");
+            System.out.println(stringBuilder.toString());
             try (PreparedStatement ps = con.prepareStatement(stringBuilder.toString())){
-                ps.setString(1, Tinh);
+                if (Tinh != null) {
+                    ps.setString(num_col, Tinh);
+                    num_col++;
+                }
+                if (Huyen != null) {
+                    ps.setString(num_col, Huyen);
+                    num_col++;
+                }
+                if (Xa != null) {
+                    ps.setString(num_col, Xa);
+                    num_col++;
+                }
+                if (TenDuong != null) {
+                    ps.setString(num_col, TenDuong);
+                    num_col++;
+                }
+                if (soNha != null) {
+                    ps.setString(num_col, soNha);
+                    num_col++;
+                }
+                ps.setInt(num_col, timKiemGiaTu);
+                ps.setInt(num_col, timKiemGiaDen);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Phong p = new Phong();
-                    p.setId(rs.getInt("id"));
-                    int idChuPhong = rs.getInt("ChuTroID");
-                    p.setChu(ChuPhongDAO.getInstance().findById(idChuPhong));
+                    p.setId(rs.getLong("PhongID"));
+                    p.setDiaChi(DiaChiDAO.getInstance().findById(rs.getLong("DiaChiID")));
+                    p.setGia((rs.getDouble("GiaPhong")));
+                    p.setMoTa(rs.getString("MoTa"));
+                    p.setHinhAnh(rs.getString("HinhAnh"));
+                    p.setChu(ChuPhongDAO.getInstance().findById(rs.getLong("ChuTroID")));
+                    p.setKhach(KhachHangDAO.getInstance().findById(rs.getLong("KhachHangID")));
                     list.add(p);
                 }
             }
@@ -73,4 +114,5 @@ public class PhongDAO implements DAOinterface<Phong> {
 
         return list;
     }
+
 }

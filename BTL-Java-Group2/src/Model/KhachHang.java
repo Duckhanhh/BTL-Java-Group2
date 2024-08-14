@@ -13,8 +13,6 @@ public class KhachHang {
     private String email;
     private String matKhau;
 
-    private List<Phong> listPhong;
-
     public KhachHang() {
     }
 
@@ -92,14 +90,5 @@ public class KhachHang {
     public void setMatKhau(String matKhau) {
         this.matKhau = matKhau;
     }
-
-    public List<Phong> getListPhong() {
-        return listPhong;
-    }
-
-    public void setListPhong(List<Phong> listPhong) {
-        this.listPhong = listPhong;
-    }
-
 }
 
