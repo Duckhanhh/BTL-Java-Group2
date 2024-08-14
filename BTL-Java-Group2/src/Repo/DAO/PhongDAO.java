@@ -59,7 +59,7 @@ public class PhongDAO implements DAOinterface<Phong> {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Phong p = new Phong();
-                    p.setId(rs.getInt("id"));
+                    p.setId(rs.getLong("id"));
                     int idChuPhong = rs.getInt("ChuTroID");
                     p.setChu(ChuPhongDAO.getInstance().findById(idChuPhong));
                     list.add(p);
