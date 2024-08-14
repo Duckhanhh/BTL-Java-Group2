@@ -19,9 +19,9 @@ public class PhongDAO implements DAOinterface<Phong> {
     public void insert(Phong phong) {
         try {
             Connection con = JDBCUtil.getConnection();
-            String query = "INSERT INTO phong VALUES(?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO Tro VALUES(?,?,?,?,?,?,?,?)";
             try (PreparedStatement ps = con.prepareStatement(query)) {
-                ps.setInt(1, phong.getId());
+                ps.setLong(1, phong.getId());
                 ps.execute();
             }
             JDBCUtil.closeConnection(con);
@@ -37,7 +37,17 @@ public class PhongDAO implements DAOinterface<Phong> {
 
     @Override
     public void delete(Phong obj) {
-
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String query = "DELETE FROM Tro WHERE TroID = ?";
+            try(PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setLong(1, obj.getId());
+                ps.execute();
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

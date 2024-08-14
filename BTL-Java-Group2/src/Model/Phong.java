@@ -26,7 +26,7 @@ public class Phong {
         this.khach = khach;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
