@@ -93,6 +93,7 @@ public class PhongDAO implements DAOinterface<Phong> {
                     num_col++;
                 }
                 ps.setInt(num_col, timKiemGiaTu);
+                num_col++;
                 ps.setInt(num_col, timKiemGiaDen);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
