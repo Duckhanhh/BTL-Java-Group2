@@ -30,7 +30,7 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
     }
 
     @Override
-    public ChuPhong findById(int id) {
+    public ChuPhong findById(Long id) {
         return null;
     }
 
@@ -40,8 +40,9 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
     }
 
     @Override
-    public void update(int id, DiaChi diaChi, double gia, String moTa, double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
+    public void updatePhong(Long id, DiaChi diaChi, double gia, String moTa, double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
 
     }
+
 
 }

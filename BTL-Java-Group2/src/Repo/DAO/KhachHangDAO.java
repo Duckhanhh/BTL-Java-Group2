@@ -30,7 +30,7 @@ public class KhachHangDAO implements DAOinterface<KhachHang>{
     }
 
     @Override
-    public KhachHang findById(int id) {
+    public KhachHang findById(Long id) {
         return null;
     }
 
@@ -40,7 +40,7 @@ public class KhachHangDAO implements DAOinterface<KhachHang>{
     }
 
     @Override
-    public void update(int id, DiaChi diaChi, double gia, String moTa, double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
+    public void updatePhong(Long id, DiaChi diaChi, double gia, String moTa, double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
 
     }
 }
