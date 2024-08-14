@@ -8,14 +8,14 @@ public class Phong {
     private double gia;
     private String moTa;
     private double dienTich;
-    private File hinhAnh;
+    private String hinhAnh;
     private ChuPhong chu;
     private KhachHang khach;
 
     public Phong() {
     }
 
-    public Phong(Long id, DiaChi diaChi, double gia, String moTa, double dienTich, File hinhAnh, ChuPhong chu, KhachHang khach) {
+    public Phong(Long id, DiaChi diaChi, double gia, String moTa, double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
         this.id = id;
         this.diaChi = diaChi;
         this.gia = gia;
@@ -26,7 +26,7 @@ public class Phong {
         this.khach = khach;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -66,11 +66,11 @@ public class Phong {
         this.dienTich = dienTich;
     }
 
-    public File getHinhAnh() {
+    public String getHinhAnh() {
         return hinhAnh;
     }
 
-    public void setHinhAnh(File hinhAnh) {
+    public void setHinhAnh(String hinhAnh) {
         this.hinhAnh = hinhAnh;
     }
 

@@ -21,6 +21,10 @@ public class KhachHangDAO implements DAOinterface<KhachHang> {
 
     @Override
     public void delete(KhachHang obj) {
+        if (obj.getId() == null){
+            System.out.println("KhachHang id is null");
+            return;
+        }
         try {
             Connection con = JDBCUtil.getConnection();
             String query = "DELETE FROM KhachHang WHERE KhachHangID = ?";
