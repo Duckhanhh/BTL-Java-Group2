@@ -20,7 +20,7 @@ public class PhongDAO implements DAOinterface<Phong> {
             Connection con = JDBCUtil.getConnection();
             String query = "INSERT INTO phong VALUES(?,?,?,?,?,?,?,?)";
             try (PreparedStatement ps = con.prepareStatement(query)) {
-                ps.setInt(1, phong.getId());
+                ps.setLong(1, phong.getId());
                 ps.execute();
             }
             JDBCUtil.closeConnection(con);

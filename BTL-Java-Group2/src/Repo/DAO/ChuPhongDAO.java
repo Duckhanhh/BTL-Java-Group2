@@ -31,7 +31,7 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
                 ps.setString(5, chuPhong.getSoDt());
                 ps.setString(6, chuPhong.getTenTaiKhoan());
                 ps.setString(7, chuPhong.getMatKhau());
-                ps.setInt(8, chuPhong.getId());
+                ps.setLong(8, chuPhong.getId());
                 ps.execute();
             }
             JDBCUtil.closeConnection(conn);
@@ -46,7 +46,7 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
             Connection con = JDBCUtil.getConnection();
             String query = "DELETE FROM chuPhong WHERE id = ?";
             try (PreparedStatement ps = con.prepareStatement(query)){
-                ps.setInt(1, chuPhong.getId());
+                ps.setLong(1, chuPhong.getId());
                 ps.execute();
             }
             JDBCUtil.closeConnection(con);

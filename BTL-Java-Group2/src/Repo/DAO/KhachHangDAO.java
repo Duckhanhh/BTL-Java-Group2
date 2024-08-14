@@ -2,15 +2,13 @@ package Repo.DAO;
 
 import Model.KhachHang;
 import database.JDBCUtil;
-
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.util.List;
 
 public class KhachHangDAO implements DAOinterface<KhachHang>{
-    public static KhachHangDAO getInstance(){
-        return new KhachHangDAO();
+        public static KhachHangDAO getInstance(){
+            return new KhachHangDAO();
     }
 
     @Override
@@ -20,19 +18,20 @@ public class KhachHangDAO implements DAOinterface<KhachHang>{
 
     @Override
     public void update(KhachHang khachHang) {
-        try{
+        try {
             Connection con = JDBCUtil.getConnection();
             String query = "UPDATE khachHang SET hoTen = ?, namSinh = ?, gioiTInh = ?, cccd = ?, soDienThoai = ?, email = ?, matKhau = ? WHERE id = ?";
             try (PreparedStatement ps = con.prepareStatement(query)){
                 ps.setString(1, khachHang.getHoTen());
-                ps.setDate(2, (Date) khachHang.getNamSinh());
+                ps.setInt(2, khachHang.getNamSinh());
                 ps.setString(3, khachHang.getGioiTinh());
                 ps.setString(4, khachHang.getCccd());
                 ps.setString(5, khachHang.getSoDienThoai());
                 ps.setString(6, khachHang.getEmail());
                 ps.setString(7, khachHang.getMatKhau());
-                ps.setInt(8, khachHang.getId());
+                ps.setLong(8, khachHang.getId());
                 ps.execute();
+
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
