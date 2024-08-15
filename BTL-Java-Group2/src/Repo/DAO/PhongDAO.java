@@ -52,7 +52,8 @@ public class PhongDAO implements DAOinterface<Phong> {
         try {
             Connection con = JDBCUtil.getConnection();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(" SELECT * FROM Tro WHERE DiaChiID = (SELECT DiaChiID FROM DiaChi WHERE 1=1 ");
+            stringBuilder.append(" SELECT * FROM Tro INNER JOIN DiaChi ON Tro.DiaChiID = DiaChi.DiaChiID" +
+                    " WHERE 1=1 ");
             //Doan nay de hoan thien cau lenh sql
             if (Tinh != null) {
                 stringBuilder.append(" AND TinhThanhPho LIKE ? ");
@@ -69,8 +70,8 @@ public class PhongDAO implements DAOinterface<Phong> {
             if (soNha != null) {
                 stringBuilder.append(" AND SoNha LIKE ? ");
             }
-            stringBuilder.append(" ) AND GiaPhong > ? AND GiaPhong < ? ");
-            System.out.println(stringBuilder.toString());
+            stringBuilder.append(" AND GiaPhong > ? AND GiaPhong < ? ");
+
             try (PreparedStatement ps = con.prepareStatement(stringBuilder.toString())){
                 if (Tinh != null) {
                     ps.setString(num_col, Tinh);
@@ -98,10 +99,12 @@ public class PhongDAO implements DAOinterface<Phong> {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Phong p = new Phong();
-                    p.setId(rs.getLong("PhongID"));
+                    p.setId(rs.getLong("TroID"));
                     p.setDiaChi(DiaChiDAO.getInstance().findById(rs.getLong("DiaChiID")));
                     p.setGia((rs.getDouble("GiaPhong")));
                     p.setMoTa(rs.getString("MoTa"));
+                    //moi
+                    p.setDienTich(rs.getDouble("DienTich"));
                     p.setHinhAnh(rs.getString("HinhAnh"));
                     p.setChu(ChuPhongDAO.getInstance().findById(rs.getLong("ChuTroID")));
                     p.setKhach(KhachHangDAO.getInstance().findById(rs.getLong("KhachHangID")));

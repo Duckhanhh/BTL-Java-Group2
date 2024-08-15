@@ -89,4 +89,18 @@ public class Phong {
     public void setKhach(KhachHang khach) {
         this.khach = khach;
     }
+
+    @Override
+    public String toString() {
+        return "Phong{" +
+                "id=" + id +
+                ", diaChi=" + diaChi +
+                ", gia=" + gia +
+                ", moTa='" + moTa + '\'' +
+                ", dienTich=" + dienTich +
+                ", hinhAnh='" + hinhAnh + '\'' +
+                ", chu=" + chu +
+                ", khach=" + khach +
+                '}';
+    }
 }

@@ -56,16 +56,18 @@ public class KhachHangDAO implements DAOinterface<KhachHang>{
         KhachHang ketQua = null;
         try(PreparedStatement ps = co.prepareStatement(query)) {
             ps.setLong(1,id);
-            ResultSet rs = ps.executeQuery(query);
-            Long KhachHangID = rs.getLong("KhachHangID");
-            String hoTen = rs.getString("HoTen");
-            Date namSinh = new java.util.Date(rs.getDate("NgaySinh").getTime());
-            String gioiTinh = rs.getString("GioiTinh");
-            String cccd = rs.getString("SoCanCuocCongDan");
-            String soDienThoai = rs.getString("SoDienThoai");
-            String email = rs.getString("TaiKhoan");
-            String matKhau = rs.getString("MatKhau");
-            ketQua = new KhachHang(KhachHangID, hoTen, namSinh, gioiTinh, cccd, soDienThoai,email,matKhau);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Long KhachHangID = rs.getLong("KhachHangID");
+                String hoTen = rs.getString("HoTen");
+                Date namSinh = new java.util.Date(rs.getDate("NgaySinh").getTime());
+                String gioiTinh = rs.getString("GioiTinh");
+                String cccd = rs.getString("SoCanCuocCongDan");
+                String soDienThoai = rs.getString("SoDienThoai");
+                String email = rs.getString("TaiKhoan");
+                String matKhau = rs.getString("MatKhau");
+                ketQua = new KhachHang(KhachHangID, hoTen, namSinh, gioiTinh, cccd, soDienThoai,email,matKhau);
+            }
             JDBCUtil.closeConnection(co);
         } catch(Exception e){
             e.printStackTrace();

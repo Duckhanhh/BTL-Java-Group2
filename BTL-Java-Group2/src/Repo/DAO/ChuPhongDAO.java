@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ChuPhongDAO implements DAOinterface<ChuPhong>{
@@ -49,7 +50,28 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
 
     @Override
     public ChuPhong findById(Long id) {
-       return null;
+        Connection co = JDBCUtil.getConnection();
+        String query = " SELECT * FROM ChuTro WHERE ChuTroID=? ";
+        ChuPhong ketQua = null;
+        try(PreparedStatement ps = co.prepareStatement(query)) {
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                Long chuTroId = rs.getLong("ChuTroId");
+                String hoTen = rs.getString("HoTen");
+                Date ngaySinh = new java.util.Date(rs.getDate("NgaySinh").getTime());
+                String gioiTinh = rs.getString("GioiTinh");
+                String cccd = rs.getString("SoCanCuocCongDan");
+                String soDienThoai = rs.getString("SoDienThoai");
+                String taiKhoan = rs.getString(("TaiKhoan"));
+                String matKhau = rs.getString(("MatKhau"));
+                ketQua = new ChuPhong(chuTroId, hoTen, ngaySinh, gioiTinh, cccd, soDienThoai, taiKhoan, matKhau);
+            }
+            JDBCUtil.closeConnection(co);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return ketQua;
     }
 
     public List<Phong> findPhong(ChuPhong chu){
@@ -69,6 +91,7 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
                 p.setHinhAnh(rs.getString("HinhAnh"));
                 p.setChu(ChuPhongDAO.getInstance().findById(chu.getId()));
                 p.setKhach(KhachHangDAO.getInstance().findById(rs.getLong("KhachHangID")));
+                p.setDienTich(rs.getDouble("DienTich"));
                 listPhong.add(p);
             }
         JDBCUtil.closeConnection(con);
