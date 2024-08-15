@@ -36,35 +36,52 @@ public class PhongDAO implements DAOinterface<Phong> {
     }
 
     @Override
+    public void delete(Phong obj) {
+        try {
+            if(obj.getId() == null) {
+                System.out.println("Khong the thuc hien");
+                return;
+            }
+            Connection con = JDBCUtil.getConnection();
+            String query = "UPDATE Tro SET KhachHangID = NULL WHERE TroID = ?";
+            try(PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setLong(1, obj.getId());
+                ps.executeUpdate();
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void updatePhong(Long id, DiaChi diaChi, Double gia, String moTa, Double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
         try {
             Connection con = JDBCUtil.getConnection();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(" UPDATE phong WHERE 1=1 SET");
-            if(id != null) {
-                stringBuilder.append(" id = ?, ");
-            }
-            if(diaChi != null) {
-                stringBuilder.append(" diaChi LIKE ?, ");
-            }
+            stringBuilder.append(" UPDATE phong SET");
             if(gia != null) {
-                stringBuilder.append(" gia = ?, ");
+                stringBuilder.append(" GiaPhong = ?, ");
             }
             if(moTa != null) {
-                stringBuilder.append(" moTa LIKE ?, ");
-            }
-            if(dienTich != null) {
-                stringBuilder.append(" dienTich = ?, ");
+                stringBuilder.append(" MoTa LIKE ?, ");
             }
             if(hinhAnh != null) {
-                stringBuilder.append(" hinhAnh LIKE ?, ");
+                stringBuilder.append(" HinhAnh LIKE ?, ");
             }
-            if(chu != null) {
-                stringBuilder.append(" chu = ?, ");
+            if(chu.getId() != null) {
+                stringBuilder.append(" ChuTroID = ?, ");
             }
-            if(khach != null) {
-                stringBuilder.append(" khach = ?, ");
+            if(khach.getId() != null) {
+                stringBuilder.append(" KhachHangID = ?, ");
             }
+            if(diaChi.getId() != null) {
+                stringBuilder.append(" DiaChiID = ?, ");
+            }
+            if(dienTich != null) {
+                stringBuilder.append(" DienTich = ?, ");
+            }
+            stringBuilder.append(" WHERE TroID = ? ");
             try {
                 PreparedStatement ps = con.prepareStatement(stringBuilder.toString());
                 ps.setLong(1, id);
@@ -86,11 +103,6 @@ public class PhongDAO implements DAOinterface<Phong> {
         }
     }
 
-
-    @Override
-    public void delete(Phong obj) {
-
-    }
 
     @Override
     public Phong findById(Long id) {
