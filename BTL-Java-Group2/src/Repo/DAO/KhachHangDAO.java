@@ -8,6 +8,7 @@ import database.JDBCUtil.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,10 +55,10 @@ public class KhachHangDAO implements DAOinterface<KhachHang>{
         Connection co = JDBCUtil.getConnection();
         String query = " SELECT * FROM KhachHang WHERE KhachHangID=? ";
         KhachHang ketQua = null;
-        try(PreparedStatement ps = co.prepareStatement(query)) {
-            ps.setLong(1,id);
+        try (PreparedStatement ps = co.prepareStatement(query)) {
+            ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Long KhachHangID = rs.getLong("KhachHangID");
                 String hoTen = rs.getString("HoTen");
                 Date namSinh = new java.util.Date(rs.getDate("NgaySinh").getTime());
@@ -66,13 +67,38 @@ public class KhachHangDAO implements DAOinterface<KhachHang>{
                 String soDienThoai = rs.getString("SoDienThoai");
                 String email = rs.getString("TaiKhoan");
                 String matKhau = rs.getString("MatKhau");
-                ketQua = new KhachHang(KhachHangID, hoTen, namSinh, gioiTinh, cccd, soDienThoai,email,matKhau);
+                ketQua = new KhachHang(KhachHangID, hoTen, namSinh, gioiTinh, cccd, soDienThoai, email, matKhau);
             }
             JDBCUtil.closeConnection(co);
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return ketQua;
     }
+    public List<Phong> findPhong(KhachHang khach){
+        List<Phong> listPhong = new ArrayList<>();
 
+        Connection con = JDBCUtil.getConnection();
+        String query = " SELECT * FROM Tro WHERE KhachHangID = ? ";
+        try(PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setLong(1, khach.getId());
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Phong p = new Phong();
+                p.setId(rs.getLong("TroID"));
+                p.setDiaChi(DiaChiDAO.getInstance().findById(rs.getLong("DiaChiID")));
+                p.setGia((rs.getDouble("GiaPhong")));
+                p.setMoTa(rs.getString("MoTa"));
+                p.setHinhAnh(rs.getString("HinhAnh"));
+                p.setChu(ChuPhongDAO.getInstance().findById(rs.getLong("ChuPhongID")));
+                p.setKhach(KhachHangDAO.getInstance().findById(khach.getId()));
+                p.setDienTich(rs.getDouble("DienTich"));
+                listPhong.add(p);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return listPhong;
+    }
 }
