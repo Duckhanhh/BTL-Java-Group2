@@ -59,7 +59,7 @@ public class PhongDAO implements DAOinterface<Phong> {
         try {
             Connection con = JDBCUtil.getConnection();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(" UPDATE phong SET");
+            stringBuilder.append(" UPDATE Tro SET");
             if(gia != null) {
                 stringBuilder.append(" GiaPhong = ?, ");
             }
