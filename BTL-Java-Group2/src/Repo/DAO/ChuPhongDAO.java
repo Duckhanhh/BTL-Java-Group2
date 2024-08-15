@@ -40,7 +40,7 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
     }
 
     @Override
-    public void updatePhong(Long id, DiaChi diaChi, double gia, String moTa, double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
+    public void updatePhong(Long id, DiaChi diaChi, Double gia, String moTa, Double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
 
     }
 

@@ -32,53 +32,38 @@ public class PhongDAO implements DAOinterface<Phong> {
 
     @Override
     public void update(Phong obj) {
-        try {
-            Connection con = JDBCUtil.getConnection();
-            String query = "UPDATE phong SET id = ?, diaChi = ?, gia = ?, moTa = ?, dienTich = ?, hinhAnh = ?, chu = ?, khach = ?";
-            try (PreparedStatement ps = con.prepareStatement(query)) {
-                ps.setLong(1, obj.getId());
-                ps.setLong(2, obj.getDiaChi().getId());
-                ps.setDouble(3, obj.getGia());
-                ps.setString(4, obj.getMoTa());
-                ps.setDouble(5, obj.getDienTich());
-                ps.setString(6, String.valueOf(obj.getHinhAnh()));
-                ps.setLong(7, obj.getChu().getId());
-                ps.setLong(8, obj.getKhach().getId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
-    public void updatePhong(Long id, DiaChi diaChi, double gia, String moTa, double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
+    public void updatePhong(Long id, DiaChi diaChi, Double gia, String moTa, Double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
         try {
             Connection con = JDBCUtil.getConnection();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(" UPDATE phong SET 1=1 ");
+            stringBuilder.append(" UPDATE phong WHERE 1=1 SET");
             if(id != null) {
-                stringBuilder.append(" id LIKE ? ");
+                stringBuilder.append(" id = ?, ");
             }
             if(diaChi != null) {
-                stringBuilder.append(" diaChi LIKE? ");
+                stringBuilder.append(" diaChi LIKE ?, ");
             }
-            if(gia != 0) {
-                stringBuilder.append(" gia LIKE ? ");
+            if(gia != null) {
+                stringBuilder.append(" gia = ?, ");
             }
             if(moTa != null) {
-                stringBuilder.append(" moTa LIKE? ");
+                stringBuilder.append(" moTa LIKE ?, ");
             }
-            if(dienTich != 0) {
-                stringBuilder.append(" dienTich LIKE? ");
+            if(dienTich != null) {
+                stringBuilder.append(" dienTich = ?, ");
             }
             if(hinhAnh != null) {
-                stringBuilder.append(" hinhAnh LIKE? ");
+                stringBuilder.append(" hinhAnh LIKE ?, ");
             }
             if(chu != null) {
-                stringBuilder.append(" chu LIKE? ");
+                stringBuilder.append(" chu = ?, ");
             }
             if(khach != null) {
-                stringBuilder.append(" khach LIKE? ");
+                stringBuilder.append(" khach = ?, ");
             }
             try {
                 PreparedStatement ps = con.prepareStatement(stringBuilder.toString());
@@ -140,4 +125,6 @@ public class PhongDAO implements DAOinterface<Phong> {
 
         return list;
     }
+
+
 }

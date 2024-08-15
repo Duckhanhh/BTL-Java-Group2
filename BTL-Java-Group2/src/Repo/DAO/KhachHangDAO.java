@@ -3,13 +3,7 @@ package Repo.DAO;
 import Model.ChuPhong;
 import Model.DiaChi;
 import Model.KhachHang;
-import Model.Phong;
-import database.JDBCUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 
 public class KhachHangDAO implements DAOinterface<KhachHang>{
@@ -40,7 +34,7 @@ public class KhachHangDAO implements DAOinterface<KhachHang>{
     }
 
     @Override
-    public void updatePhong(Long id, DiaChi diaChi, double gia, String moTa, double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
+    public void updatePhong(Long id, DiaChi diaChi, Double gia, String moTa, Double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
 
     }
 }

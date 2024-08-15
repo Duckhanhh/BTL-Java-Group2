@@ -5,9 +5,9 @@ import java.io.File;
 public class Phong {
     private Long id;
     private DiaChi diaChi;
-    private double gia;
+    private Double gia;
     private String moTa;
-    private double dienTich;
+    private Double dienTich;
     private File hinhAnh;
     private ChuPhong chu;
     private KhachHang khach;
@@ -15,7 +15,7 @@ public class Phong {
     public Phong() {
     }
 
-    public Phong(Long id, DiaChi diaChi, double gia, String moTa, double dienTich, File hinhAnh, ChuPhong chu, KhachHang khach) {
+    public Phong(Long id, DiaChi diaChi, Double gia, String moTa, Double dienTich, File hinhAnh, ChuPhong chu, KhachHang khach) {
         this.id = id;
         this.diaChi = diaChi;
         this.gia = gia;
@@ -42,7 +42,7 @@ public class Phong {
         this.diaChi = diaChi;
     }
 
-    public double getGia() {
+    public Double getGia() {
         return gia;
     }
 
@@ -58,7 +58,7 @@ public class Phong {
         this.moTa = moTa;
     }
 
-    public double getDienTich() {
+    public Double getDienTich() {
         return dienTich;
     }
 
