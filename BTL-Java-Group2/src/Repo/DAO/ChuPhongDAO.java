@@ -45,8 +45,25 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
 
     @Override
     public void delete(ChuPhong obj) {
+        if (obj.getId() == null) {
+            System.out.println("loi id is null");
+            return;
+        }
 
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String query = "DELETE FROM ChuTro WHERE ChuTroID=?";
+            try(PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setLong(1, obj.getId());
+                ps.execute();
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+
 
     @Override
     public ChuPhong findById(Long id) {

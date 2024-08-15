@@ -46,11 +46,6 @@ public class KhachHangDAO implements DAOinterface<KhachHang>{
     }
 
     @Override
-    public void delete(KhachHang obj) {
-
-    }
-
-    @Override
     public KhachHang findById(Long id) {
         Connection co = JDBCUtil.getConnection();
         String query = " SELECT * FROM KhachHang WHERE KhachHangID=? ";
@@ -101,4 +96,27 @@ public class KhachHangDAO implements DAOinterface<KhachHang>{
         }
         return listPhong;
     }
+
+
+
+
+    @Override
+    public void delete(KhachHang obj) {
+        if (obj.getId() == null){
+            System.out.println("KhachHang id is null");
+            return;
+        }
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String query = "DELETE FROM KhachHang WHERE KhachHangID = ?";
+            try(PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setLong(1, obj.getId());
+                ps.execute();
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
