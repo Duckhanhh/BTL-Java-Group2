@@ -11,12 +11,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhongDAO implements DAOinterface<Phong> {
+public class PhongDAO {
     public static PhongDAO getInstance() {
         return new PhongDAO();
     }
 
-    @Override
     public void insert(Phong phong) {
         try {
 
@@ -50,21 +49,19 @@ public class PhongDAO implements DAOinterface<Phong> {
         }
     }
 
-    @Override
     public void update(Phong obj) {
 
     }
 
-    @Override
     public void delete(Phong obj) {
-        if(obj.getId() == null){
+        if (obj.getId() == null) {
             System.out.println("id is null");
             return;
         }
         try {
             Connection con = JDBCUtil.getConnection();
             String query = "DELETE FROM Tro WHERE TroID = ?";
-            try(PreparedStatement ps = con.prepareStatement(query)) {
+            try (PreparedStatement ps = con.prepareStatement(query)) {
                 ps.setLong(1, obj.getId());
                 ps.execute();
             }
@@ -74,7 +71,6 @@ public class PhongDAO implements DAOinterface<Phong> {
         }
     }
 
-    @Override
     public Phong findById(Long id) {
         return null;
     }
@@ -103,15 +99,15 @@ public class PhongDAO implements DAOinterface<Phong> {
             if (soNha != null) {
                 stringBuilder.append(" AND SoNha LIKE ? ");
             }
-            if(timKiemGiaTu != null){
+            if (timKiemGiaTu != null) {
                 stringBuilder.append(" AND GiaPhong > ?  ");
             }
-            if(timKiemGiaDen != null){
+            if (timKiemGiaDen != null) {
                 stringBuilder.append(" AND GiaPhong < ? ");
             }
 
 
-            try (PreparedStatement ps = con.prepareStatement(stringBuilder.toString())){
+            try (PreparedStatement ps = con.prepareStatement(stringBuilder.toString())) {
                 if (Tinh != null) {
                     ps.setString(num_col, Tinh);
                     num_col++;
@@ -132,11 +128,11 @@ public class PhongDAO implements DAOinterface<Phong> {
                     ps.setString(num_col, soNha);
                     num_col++;
                 }
-                if(timKiemGiaTu != null){
+                if (timKiemGiaTu != null) {
                     ps.setInt(num_col, timKiemGiaTu);
                     num_col++;
                 }
-                if(timKiemGiaDen != null){
+                if (timKiemGiaDen != null) {
                     ps.setInt(num_col, timKiemGiaDen);
                     num_col++;
                 }
@@ -162,5 +158,4 @@ public class PhongDAO implements DAOinterface<Phong> {
 
         return list;
     }
-
 }

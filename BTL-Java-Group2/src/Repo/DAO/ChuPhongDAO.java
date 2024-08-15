@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ChuPhongDAO implements DAOinterface<ChuPhong>{
+public class ChuPhongDAO {
     public static ChuPhongDAO getInstance() {
         return new ChuPhongDAO();
     }
 
-    @Override
+    
     public void insert(ChuPhong obj) {
         try {
             Connection con = JDBCUtil.getConnection();
@@ -38,12 +38,12 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
         }
     }
 
-    @Override
+    
     public void update(ChuPhong obj) {
 
     }
 
-    @Override
+    
     public void delete(ChuPhong obj) {
         if (obj.getId() == null) {
             System.out.println("loi id is null");
@@ -65,7 +65,7 @@ public class ChuPhongDAO implements DAOinterface<ChuPhong>{
 
 
 
-    @Override
+    
     public ChuPhong findById(Long id) {
         Connection co = JDBCUtil.getConnection();
         String query = " SELECT * FROM ChuTro WHERE ChuTroID=? ";

@@ -12,18 +12,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class KhachHangDAO implements DAOinterface<KhachHang>{
+public class KhachHangDAO {
     public static KhachHangDAO getInstance() {
         return new KhachHangDAO();
     }
 
-    @Override
+
     public void insert(KhachHang obj) {
         try {
             Connection con = JDBCUtil.getConnection();
             String query = " INSERT INTO KhachHang(KhachHangID, HoTen, NgaySinh, GioiTinh, SoCanCuocCongDan, SoDienThoai, TaiKhoan, MatKhau) VALUES\n" +
                     "(NEXT VALUE FOR KhachHang_seq, ?, ?, ?, ?, ?, ?, ? ); ";
-            try(PreparedStatement ps = con.prepareStatement(query)){
+            try (PreparedStatement ps = con.prepareStatement(query)) {
                 ps.setString(1, obj.getHoTen());
                 ps.setDate(2, new java.sql.Date(obj.getNamSinh().getTime()));
                 ps.setString(3, obj.getGioiTinh());
@@ -35,17 +35,17 @@ public class KhachHangDAO implements DAOinterface<KhachHang>{
             }
             System.out.println("Insert Successful !");
             JDBCUtil.closeConnection(con);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @Override
+
     public void update(KhachHang obj) {
 
     }
 
-    @Override
+
     public KhachHang findById(Long id) {
         Connection co = JDBCUtil.getConnection();
         String query = " SELECT * FROM KhachHang WHERE KhachHangID=? ";
@@ -70,15 +70,16 @@ public class KhachHangDAO implements DAOinterface<KhachHang>{
         }
         return ketQua;
     }
-    public List<Phong> findPhong(KhachHang khach){
+
+    public List<Phong> findPhong(KhachHang khach) {
         List<Phong> listPhong = new ArrayList<>();
 
         Connection con = JDBCUtil.getConnection();
         String query = " SELECT * FROM Tro WHERE KhachHangID = ? ";
-        try(PreparedStatement ps = con.prepareStatement(query)) {
+        try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setLong(1, khach.getId());
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Phong p = new Phong();
                 p.setId(rs.getLong("TroID"));
                 p.setDiaChi(DiaChiDAO.getInstance().findById(rs.getLong("DiaChiID")));
@@ -91,25 +92,22 @@ public class KhachHangDAO implements DAOinterface<KhachHang>{
                 listPhong.add(p);
             }
             JDBCUtil.closeConnection(con);
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return listPhong;
     }
 
 
-
-
-    @Override
     public void delete(KhachHang obj) {
-        if (obj.getId() == null){
+        if (obj.getId() == null) {
             System.out.println("KhachHang id is null");
             return;
         }
         try {
             Connection con = JDBCUtil.getConnection();
             String query = "DELETE FROM KhachHang WHERE KhachHangID = ?";
-            try(PreparedStatement ps = con.prepareStatement(query)) {
+            try (PreparedStatement ps = con.prepareStatement(query)) {
                 ps.setLong(1, obj.getId());
                 ps.execute();
             }

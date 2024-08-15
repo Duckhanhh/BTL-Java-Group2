@@ -8,27 +8,27 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiaChiDAO implements DAOinterface<DiaChi>{
+public class DiaChiDAO {
     public static DiaChiDAO getInstance() {
         return new DiaChiDAO();
     }
 
-    @Override
+    
     public void insert(DiaChi obj) {
 
     }
 
-    @Override
+    
     public void update(DiaChi obj) {
 
     }
 
-    @Override
+    
     public void delete(DiaChi obj) {
 
     }
 
-    @Override
+    
     public DiaChi findById(Long id) {
         Connection co = JDBCUtil.getConnection();
         String query = " SELECT * FROM DiaChi WHERE DiaChiID=? ";
