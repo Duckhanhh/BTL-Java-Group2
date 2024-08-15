@@ -46,7 +46,7 @@ public class PhongDAO implements DAOinterface<Phong> {
         return null;
     }
 
-    public List<Phong> findPhong(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, int timKiemGiaTu, int timKiemGiaDen) {
+    public List<Phong> findPhong(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, Integer timKiemGiaTu, Integer timKiemGiaDen) {
         List<Phong> list = new ArrayList<>();
         int num_col = 1;
         try {
@@ -70,7 +70,13 @@ public class PhongDAO implements DAOinterface<Phong> {
             if (soNha != null) {
                 stringBuilder.append(" AND SoNha LIKE ? ");
             }
-            stringBuilder.append(" AND GiaPhong > ? AND GiaPhong < ? ");
+            if(timKiemGiaTu != null){
+                stringBuilder.append(" AND GiaPhong > ?  ");
+            }
+            if(timKiemGiaDen != null){
+                stringBuilder.append(" AND GiaPhong < ? ");
+            }
+
 
             try (PreparedStatement ps = con.prepareStatement(stringBuilder.toString())){
                 if (Tinh != null) {
@@ -93,9 +99,14 @@ public class PhongDAO implements DAOinterface<Phong> {
                     ps.setString(num_col, soNha);
                     num_col++;
                 }
-                ps.setInt(num_col, timKiemGiaTu);
-                num_col++;
-                ps.setInt(num_col, timKiemGiaDen);
+                if(timKiemGiaTu != null){
+                    ps.setInt(num_col, timKiemGiaTu);
+                    num_col++;
+                }
+                if(timKiemGiaDen != null){
+                    ps.setInt(num_col, timKiemGiaDen);
+                    num_col++;
+                }
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Phong p = new Phong();
