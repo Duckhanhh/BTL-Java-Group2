@@ -8,14 +8,14 @@ public class Phong {
     private double gia;
     private String moTa;
     private double dienTich;
-    private File hinhAnh;
+    private String hinhAnh;
     private ChuPhong chu;
     private KhachHang khach;
 
     public Phong() {
     }
 
-    public Phong(Long id, DiaChi diaChi, double gia, String moTa, double dienTich, File hinhAnh, ChuPhong chu, KhachHang khach) {
+    public Phong(Long id, DiaChi diaChi, double gia, String moTa, double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
         this.id = id;
         this.diaChi = diaChi;
         this.gia = gia;
@@ -66,11 +66,11 @@ public class Phong {
         this.dienTich = dienTich;
     }
 
-    public File getHinhAnh() {
+    public String getHinhAnh() {
         return hinhAnh;
     }
 
-    public void setHinhAnh(File hinhAnh) {
+    public void setHinhAnh(String hinhAnh) {
         this.hinhAnh = hinhAnh;
     }
 
@@ -88,5 +88,19 @@ public class Phong {
 
     public void setKhach(KhachHang khach) {
         this.khach = khach;
+    }
+
+    @Override
+    public String toString() {
+        return "Phong{" +
+                "id=" + id +
+                ", diaChi=" + diaChi +
+                ", gia=" + gia +
+                ", moTa='" + moTa + '\'' +
+                ", dienTich=" + dienTich +
+                ", hinhAnh='" + hinhAnh + '\'' +
+                ", chu=" + chu +
+                ", khach=" + khach +
+                '}';
     }
 }

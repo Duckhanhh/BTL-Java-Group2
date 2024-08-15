@@ -2,7 +2,7 @@ package Model;
 
 public class DiaChi {
     private Long id;
-    private Long soNha;
+    private String soNha;
     private String tenDuong;
     private String tenPhuongXa;
     private String tenQuanHuyen;
@@ -11,7 +11,7 @@ public class DiaChi {
     public DiaChi() {
     }
 
-    public DiaChi(Long id, Long soNha, String tenDuong, String tenPhuongXa, String tenQuanHuyen, String tenTinhThanhPho) {
+    public DiaChi(Long id, String soNha, String tenDuong, String tenPhuongXa, String tenQuanHuyen, String tenTinhThanhPho) {
         this.id = id;
         this.soNha = soNha;
         this.tenDuong = tenDuong;
@@ -28,11 +28,11 @@ public class DiaChi {
         this.id = id;
     }
 
-    public Long getSoNha() {
+    public String getSoNha() {
         return soNha;
     }
 
-    public void setSoNha(Long soNha) {
+    public void setSoNha(String soNha) {
         this.soNha = soNha;
     }
 

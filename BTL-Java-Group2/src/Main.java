@@ -1,3 +1,4 @@
+import Model.Phong;
 import database.JDBCUtil;
 
 import javax.swing.*;
@@ -15,6 +16,9 @@ public class Main {
 //
 //        frame.setVisible(true);
         JDBCUtil.getConnection();
+
+        Phong phong = new Phong();
+        System.out.println(phong.getKhach());
     }
 
     private static void addComponentsToFrame(JFrame frame) {
