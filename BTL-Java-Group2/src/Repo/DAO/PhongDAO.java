@@ -18,13 +18,32 @@ public class PhongDAO implements DAOinterface<Phong> {
     @Override
     public void insert(Phong phong) {
         try {
+
+            if (phong.getId() == null || phong.getDiaChi() == null ||
+                    phong.getGia() == 0.0 || phong.getMoTa() == null ||
+                    phong.getDienTich() == 0.0 || phong.getHinhAnh() == null) {
+
+                throw new IllegalArgumentException("loi cac truong khong duoc trong");
+            }
+
             Connection con = JDBCUtil.getConnection();
-            String query = "INSERT INTO phong VALUES(?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO Tro VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement ps = con.prepareStatement(query)) {
-                ps.setInt(1, phong.getId());
-                ps.execute();
+                ps.setLong(1, phong.getId());
+                ps.setObject(2, phong.getDiaChi());
+                ps.setDouble(3, phong.getGia());
+                ps.setString(4, phong.getMoTa());
+                ps.setDouble(5, phong.getDienTich());
+                ps.setString(6, phong.getHinhAnh());
+                ps.setObject(7, phong.getChu());
+                ps.setObject(8, phong.getKhach());
+
+                ps.executeUpdate();
             }
             JDBCUtil.closeConnection(con);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -37,7 +56,21 @@ public class PhongDAO implements DAOinterface<Phong> {
 
     @Override
     public void delete(Phong obj) {
-
+        if(obj.getId() == null){
+            System.out.println("id is null");
+            return;
+        }
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String query = "DELETE FROM Tro WHERE TroID = ?";
+            try(PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setLong(1, obj.getId());
+                ps.execute();
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -60,7 +93,7 @@ public class PhongDAO implements DAOinterface<Phong> {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Phong p = new Phong();
-                    p.setId(rs.getInt("id"));
+                    p.setId(rs.getLong("id"));
                     int idChuPhong = rs.getInt("ChuTroID");
                     p.setChu(ChuPhongDAO.getInstance().findById(idChuPhong));
                     list.add(p);
