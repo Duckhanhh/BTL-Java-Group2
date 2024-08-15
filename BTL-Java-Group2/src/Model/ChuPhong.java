@@ -10,7 +10,6 @@ public class ChuPhong {
     private String gioiTinh;
     private String CCCD;
     private String soDt;
-    private List<Phong> danhSachPhong;
     private String tenTaiKhoan;
     private String matKhau;
 
@@ -18,14 +17,13 @@ public class ChuPhong {
 
     }
 
-    public ChuPhong(Long id, String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt, List<Phong> danhSachPhong, String tenTaiKhoan, String matKhau) {
+    public ChuPhong(Long id, String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt, String tenTaiKhoan, String matKhau) {
         this.id = id;
         this.hoTen = hoTen;
         this.ngaySinh = ngaySinh;
         this.gioiTinh = gioiTinh;
         this.CCCD = CCCD;
         this.soDt = soDt;
-        this.danhSachPhong = danhSachPhong;
         this.tenTaiKhoan = tenTaiKhoan;
         this.matKhau = matKhau;
     }
@@ -76,14 +74,6 @@ public class ChuPhong {
 
     public void setSoDt(String soDt) {
         this.soDt = soDt;
-    }
-
-    public List<Phong> getDanhSachPhong() {
-        return danhSachPhong;
-    }
-
-    public void setDanhSachPhong(List<Phong> danhSachPhong) {
-        this.danhSachPhong = danhSachPhong;
     }
 
     public String getTenTaiKhoan() {
