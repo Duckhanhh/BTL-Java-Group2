@@ -39,10 +39,53 @@ public class ChuPhongDAO {
     }
 
     
-    public void update(ChuPhong obj) {
+    public void update(Long id, String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt, String tenTaiKhoan, String matKhau) {
+        try{
+            Connection conn = JDBCUtil.getConnection();
+            StringBuilder query = new StringBuilder();
+            query.append(" UPDATE ChuPhong SET ");
+            if (hoTen != null) {
+                query.append(" hoTen = ?, ");
+            }
+            if (ngaySinh != null) {
+                query.append(" ngaySinh = ?, ");
+            }
+            if (gioiTinh != null) {
+                query.append(" gioiTinh = ?, ");
+            }
+            if (CCCD != null) {
+                query.append(" CCCD = ?, ");
+            }
+            if (soDt != null) {
+                query.append(" soDt = ?, ");
+            }
+            if (tenTaiKhoan != null) {
+                query.append(" tenTaiKhoan = ?, ");
+            }
+            if (matKhau != null) {
+                query.append(" matKhau = ?, ");
+            }
+            query.append(" WHERE id = ? ");
+            try {
+                PreparedStatement ps = conn.prepareStatement(query.toString());
+                ps.setString(1, hoTen);
+                ps.setDate(2, (java.sql.Date) ngaySinh);
+                ps.setString(3, gioiTinh);
+                ps.setString(4, CCCD);
+                ps.setString(5, soDt);
+                ps.setString(6, tenTaiKhoan);
+                ps.setString(7, matKhau);
+                ps.setLong(8, id);
+                ResultSet rs = ps.executeQuery();
 
+                JDBCUtil.closeConnection(conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
-
     
     public void delete(ChuPhong obj) {
         if (obj.getId() == null) {
