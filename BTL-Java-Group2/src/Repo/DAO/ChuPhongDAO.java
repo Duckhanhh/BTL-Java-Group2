@@ -38,53 +38,72 @@ public class ChuPhongDAO {
         }
     }
 
-    
-    public void update(Long id, String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt, String tenTaiKhoan, String matKhau) {
-        try{
-            Connection conn = JDBCUtil.getConnection();
-            StringBuilder query = new StringBuilder();
-            query.append(" UPDATE ChuPhong SET ");
+
+    public void updateChuPhong(Long id, String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt) {
+        try {
+            Connection con = JDBCUtil.getConnection();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(" UPDATE ChuPhong SET ");
+
+            boolean firstField = true;
+
             if (hoTen != null) {
-                query.append(" hoTen = ?, ");
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" HoTen = ?");
+                firstField = false;
             }
             if (ngaySinh != null) {
-                query.append(" ngaySinh = ?, ");
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" NgaySinh = ?");
+                firstField = false;
             }
             if (gioiTinh != null) {
-                query.append(" gioiTinh = ?, ");
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" GioiTinh = ?");
+                firstField = false;
             }
             if (CCCD != null) {
-                query.append(" CCCD = ?, ");
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" CCCD = ?");
+                firstField = false;
             }
             if (soDt != null) {
-                query.append(" soDt = ?, ");
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" SoDienThoai = ?");
+                firstField = false;
             }
-            if (tenTaiKhoan != null) {
-                query.append(" tenTaiKhoan = ?, ");
-            }
-            if (matKhau != null) {
-                query.append(" matKhau = ?, ");
-            }
-            query.append(" WHERE id = ? ");
-            try {
-                PreparedStatement ps = conn.prepareStatement(query.toString());
-                ps.setString(1, hoTen);
-                ps.setDate(2, (java.sql.Date) ngaySinh);
-                ps.setString(3, gioiTinh);
-                ps.setString(4, CCCD);
-                ps.setString(5, soDt);
-                ps.setString(6, tenTaiKhoan);
-                ps.setString(7, matKhau);
-                ps.setLong(8, id);
-                ResultSet rs = ps.executeQuery();
 
-                JDBCUtil.closeConnection(conn);
-            } catch (Exception e) {
-                e.printStackTrace();
+            stringBuilder.append(" WHERE TroID = ?");
+
+            PreparedStatement ps = con.prepareStatement(stringBuilder.toString());
+
+            int paramIndex = 1;
+
+            if (hoTen != null) {
+                ps.setString(paramIndex++, hoTen);
             }
+            if (ngaySinh != null) {
+                ps.setDate(paramIndex++, (java.sql.Date) ngaySinh);
+            }
+            if (gioiTinh != null) {
+                ps.setString(paramIndex++, gioiTinh);
+            }
+            if (CCCD != null) {
+                ps.setString(paramIndex++, CCCD);
+            }
+            if (soDt != null) {
+                ps.setString(paramIndex++, soDt);
+            }
+
+            ps.setLong(paramIndex, id);
+
+            ps.executeUpdate();
+
+            JDBCUtil.closeConnection(con);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+
     }
     
     public void delete(ChuPhong obj) {
