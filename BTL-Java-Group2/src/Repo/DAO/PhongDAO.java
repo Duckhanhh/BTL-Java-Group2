@@ -1,6 +1,7 @@
 package Repo.DAO;
 
 import Model.ChuPhong;
+import Model.DiaChi;
 import Model.KhachHang;
 import Model.Phong;
 import database.JDBCUtil;
@@ -49,9 +50,87 @@ public class PhongDAO {
         }
     }
 
-    public void update(Phong obj) {
+    public void updatePhong(Long id, DiaChi diaChi, Double gia, String moTa, Double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
+        try {
+            Connection con = JDBCUtil.getConnection();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("UPDATE phong SET ");
 
+            boolean firstField = true;
+
+            if (gia != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append("GiaPhong = ?");
+                firstField = false;
+            }
+            if (moTa != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append("MoTa = ?");
+                firstField = false;
+            }
+            if (hinhAnh != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append("HinhAnh = ?");
+                firstField = false;
+            }
+            if (chu.getId() != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append("ChuTroID = ?");
+                firstField = false;
+            }
+            if (khach.getId() != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append("KhachHangID = ?");
+                firstField = false;
+            }
+            if (diaChi.getId() != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append("DiaChiID = ?");
+                firstField = false;
+            }
+            if (dienTich != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append("DienTich = ?");
+            }
+
+            stringBuilder.append(" WHERE TroID = ?");
+
+            PreparedStatement ps = con.prepareStatement(stringBuilder.toString());
+
+            int paramIndex = 1;
+
+            if (gia != null) {
+                ps.setDouble(paramIndex++, gia);
+            }
+            if (moTa != null) {
+                ps.setString(paramIndex++, moTa);
+            }
+            if (hinhAnh != null) {
+                ps.setString(paramIndex++, hinhAnh);
+            }
+            if (chu.getId() != null) {
+                ps.setLong(paramIndex++, chu.getId());
+            }
+            if (khach.getId() != null) {
+                ps.setLong(paramIndex++, khach.getId());
+            }
+            if (diaChi.getId() != null) {
+                ps.setLong(paramIndex++, diaChi.getId());
+            }
+            if (dienTich != null) {
+                ps.setDouble(paramIndex++, dienTich);
+            }
+
+            ps.setLong(paramIndex, id);
+
+            ps.executeUpdate();
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 
     public void delete(Phong obj) {
         if (obj.getId() == null) {
