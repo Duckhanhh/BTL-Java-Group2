@@ -45,7 +45,7 @@ public class KhachHangDAO {
         try {
             Connection con = JDBCUtil.getConnection();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(" UPDATE ChuPhong SET ");
+            stringBuilder.append(" UPDATE KhachHang SET ");
 
             boolean firstField = true;
 
