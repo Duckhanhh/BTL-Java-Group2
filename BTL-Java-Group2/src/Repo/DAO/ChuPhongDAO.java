@@ -38,11 +38,73 @@ public class ChuPhongDAO {
         }
     }
 
-    
-    public void update(ChuPhong obj) {
+
+    public void updateChuPhong(Long id, String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt) {
+        try {
+            Connection con = JDBCUtil.getConnection();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(" UPDATE ChuPhong SET ");
+
+            boolean firstField = true;
+
+            if (hoTen != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" HoTen = ?");
+                firstField = false;
+            }
+            if (ngaySinh != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" NgaySinh = ?");
+                firstField = false;
+            }
+            if (gioiTinh != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" GioiTinh = ?");
+                firstField = false;
+            }
+            if (CCCD != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" CCCD = ?");
+                firstField = false;
+            }
+            if (soDt != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" SoDienThoai = ?");
+                firstField = false;
+            }
+
+            stringBuilder.append(" WHERE TroID = ?");
+
+            PreparedStatement ps = con.prepareStatement(stringBuilder.toString());
+
+            int paramIndex = 1;
+
+            if (hoTen != null) {
+                ps.setString(paramIndex++, hoTen);
+            }
+            if (ngaySinh != null) {
+                ps.setDate(paramIndex++, (java.sql.Date) ngaySinh);
+            }
+            if (gioiTinh != null) {
+                ps.setString(paramIndex++, gioiTinh);
+            }
+            if (CCCD != null) {
+                ps.setString(paramIndex++, CCCD);
+            }
+            if (soDt != null) {
+                ps.setString(paramIndex++, soDt);
+            }
+
+            ps.setLong(paramIndex, id);
+
+            ps.executeUpdate();
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
-
     
     public void delete(ChuPhong obj) {
         if (obj.getId() == null) {

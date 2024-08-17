@@ -41,8 +41,70 @@ public class KhachHangDAO {
     }
 
 
-    public void update(KhachHang obj) {
+    public void updateKhachHang(Long id, String hoTen, Date namSinh, String gioiTinh, String cccd, String soDienThoai) {
+        try {
+            Connection con = JDBCUtil.getConnection();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(" UPDATE KhachHang SET ");
 
+            boolean firstField = true;
+
+            if (hoTen != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" HoTen = ?");
+                firstField = false;
+            }
+            if (namSinh != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" NamSinh = ?");
+                firstField = false;
+            }
+            if (gioiTinh != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" GioiTinh = ?");
+                firstField = false;
+            }
+            if (cccd != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" CCCD = ?");
+                firstField = false;
+            }
+            if (soDienThoai != null) {
+                if (!firstField) stringBuilder.append(", ");
+                stringBuilder.append(" SoDienThoai = ?");
+                firstField = false;
+            }
+
+            stringBuilder.append(" WHERE TroID = ?");
+
+            PreparedStatement ps = con.prepareStatement(stringBuilder.toString());
+
+            int paramIndex = 1;
+
+            if (hoTen != null) {
+                ps.setString(paramIndex++, hoTen);
+            }
+            if (namSinh != null) {
+                ps.setDate(paramIndex++, (java.sql.Date) namSinh);
+            }
+            if (gioiTinh != null) {
+                ps.setString(paramIndex++, gioiTinh);
+            }
+            if (cccd != null) {
+                ps.setString(paramIndex++, cccd);
+            }
+            if (soDienThoai != null) {
+                ps.setString(paramIndex++, soDienThoai);
+            }
+
+            ps.setLong(paramIndex, id);
+
+            ps.executeUpdate();
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
