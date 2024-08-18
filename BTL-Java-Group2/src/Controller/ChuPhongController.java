@@ -13,8 +13,8 @@ import java.util.List;
 
 public class ChuPhongController {
 
-    public List<Phong> timKiem(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, Integer timKiemGiaTu, Integer timKiemGiaDen) {
-        return PhongDAO.getInstance().findPhong(Tinh, Huyen, Xa, TenDuong, soNha, timKiemGiaTu, timKiemGiaDen);
+    public List<Phong> timKiem(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, Double dienTich, Integer timKiemGiaTu, Integer timKiemGiaDen) {
+        return PhongDAO.getInstance().findPhong(Tinh, Huyen, Xa, TenDuong, soNha, dienTich, timKiemGiaTu, timKiemGiaDen);
     }
 
     public void xoaKhachKhoiTro(Phong obj) {

@@ -154,7 +154,7 @@ public class PhongDAO {
         return null;
     }
 
-    public List<Phong> findPhong(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, Integer timKiemGiaTu, Integer timKiemGiaDen) {
+    public List<Phong> findPhong(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, Double dienTich, Integer timKiemGiaTu, Integer timKiemGiaDen) {
         List<Phong> list = new ArrayList<>();
         int num_col = 1;
         try {
@@ -177,6 +177,9 @@ public class PhongDAO {
             }
             if (soNha != null) {
                 stringBuilder.append(" AND SoNha LIKE ? ");
+            }
+            if (dienTich != null) {
+                stringBuilder.append(" AND DienTich = ? ");
             }
             if (timKiemGiaTu != null) {
                 stringBuilder.append(" AND GiaPhong > ?  ");
@@ -205,6 +208,10 @@ public class PhongDAO {
                 }
                 if (soNha != null) {
                     ps.setString(num_col, soNha);
+                    num_col++;
+                }
+                if (dienTich != null) {
+                    ps.setDouble(num_col, dienTich);
                     num_col++;
                 }
                 if (timKiemGiaTu != null) {
