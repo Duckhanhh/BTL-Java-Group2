@@ -18,7 +18,7 @@ public class ChuPhongController {
     }
 
     public void xoaKhachKhoiTro(Phong obj) {
-        PhongDAO.getInstance().delete(obj);
+        PhongDAO.getInstance().deleteKhach(obj);
     }
 
     public void suaPhong(Long id, DiaChi diaChi, Double gia, String moTa, Double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {

@@ -131,6 +131,23 @@ public class PhongDAO {
         }
     }
 
+    public void deleteKhach(Phong obj) {
+        try {
+            if(obj.getId() == null) {
+                System.out.println("Khong the thuc hien");
+                return;
+            }
+            Connection con = JDBCUtil.getConnection();
+            String query = "UPDATE Tro SET KhachHangID = NULL WHERE TroID = ?";
+            try(PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setLong(1, obj.getId());
+                ps.executeUpdate();
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void delete(Phong obj) {
         if (obj.getId() == null) {
