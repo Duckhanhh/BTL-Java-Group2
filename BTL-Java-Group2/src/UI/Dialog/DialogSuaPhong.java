@@ -1,6 +1,12 @@
 package UI.Dialog;
 
+import Controller.ChuPhongController;
+import Model.DiaChi;
+import Repo.DAO.DiaChiDAO;
+import UI.JFChuPhong;
 import UI.Setting.NumberTextField;
+
+import javax.swing.*;
 
 public class DialogSuaPhong extends javax.swing.JFrame {
 
@@ -9,7 +15,6 @@ public class DialogSuaPhong extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -44,8 +49,10 @@ public class DialogSuaPhong extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         jButton1.setText("Sửa");
+        jButton1.addActionListener(e -> jButton1ActionPerformed());
 
         jButton2.setText("Hủy");
+        jButton2.addActionListener(e -> jButton2ActionPerformed());
 
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,6 +237,30 @@ public class DialogSuaPhong extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
+    private void jButton1ActionPerformed() {
+        String tinh = jTextField1 != null && !jTextField1.getText().trim().isEmpty() ? jTextField1.getText() : null;
+        String huyen = jTextField2 != null && !jTextField2.getText().trim().isEmpty() ? jTextField2.getText() : null;
+        String xa = jTextField3 != null && !jTextField3.getText().trim().isEmpty() ? jTextField3.getText() : null;
+        String duong = jTextField4 != null && !jTextField4.getText().trim().isEmpty() ? jTextField4.getText() : null;
+        String soNha = jTextField5 != null && !jTextField5.getText().trim().isEmpty() ? jTextField5.getText() : null;
+        Double gia = jTextField8 != null && !jTextField8.getText().trim().isEmpty() ? Double.parseDouble(jTextField8.getText()) : null;
+        Integer dienTich = jTextField12 != null && !jTextField12.getText().trim().isEmpty() ? Integer.parseInt(jTextField12.getText()) : null;
+        String hinhAnh = jTextField14 != null && !jTextField14.getText().trim().isEmpty() ? jTextField14.getText() : null;
+        String moTa = jTextArea1 != null && !jTextArea1.getText().trim().isEmpty() ? jTextArea1.getText() : null;
+        DiaChi diaChi = new DiaChi(null, tinh, huyen, xa, duong, soNha);
+        boolean isSuccess = ChuPhongController.getInstance().suaPhong(JFChuPhong.idPhong, diaChi, gia, moTa, dienTich, hinhAnh, isXoaKhach);
+        if (isSuccess) {
+            JOptionPane.showMessageDialog(null, "Cập nhật thành công!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Cập nhật không thành công!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+        dispose();
+    }
+
+    public void jButton2ActionPerformed() {
+        dispose();
+    }
+
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
@@ -256,6 +287,12 @@ public class DialogSuaPhong extends javax.swing.JFrame {
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+    }
+
+    private void jCheckBox1ActionPerformed() {
+        if (jCheckBox1.isSelected()) {
+            isXoaKhach = true;
+        }
     }
 
 
@@ -287,7 +324,7 @@ public class DialogSuaPhong extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify
+    private boolean isXoaKhach;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;

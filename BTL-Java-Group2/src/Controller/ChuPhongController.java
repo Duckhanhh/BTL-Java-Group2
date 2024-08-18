@@ -22,27 +22,38 @@ public class ChuPhongController {
         return PhongDAO.getInstance().findPhong(Tinh, Huyen, Xa, TenDuong, soNha, timKiemGiaTu, timKiemGiaDen, dienTichTu, dienTichDen, idChu);
     }
 
-    public boolean themTro(String tinh, String huyen, String xa, String duong, String soNha, Double gia, Integer dienTich, String hinhAnh, String moTa) {
+    public Long checkDiaChi(String tinh, String huyen, String xa, String duong, String soNha) {
         DiaChi newDiaChi = new DiaChi(null, soNha, duong, xa, huyen, tinh);
         Long idDiaChi = DiaChiDAO.getInstance().timDiaChi(newDiaChi.getTenTinhThanhPho(), newDiaChi.getTenQuanHuyen(), newDiaChi.getTenPhuongXa(), newDiaChi.getTenDuong(), newDiaChi.getSoNha());
         if (idDiaChi == -1L) {
             DiaChiDAO.getInstance().insertDiaChi(newDiaChi.getTenTinhThanhPho(), newDiaChi.getTenQuanHuyen(), newDiaChi.getTenPhuongXa(), newDiaChi.getTenDuong(), newDiaChi.getSoNha());
             idDiaChi = DiaChiDAO.getInstance().timDiaChi(newDiaChi.getTenTinhThanhPho(), newDiaChi.getTenQuanHuyen(), newDiaChi.getTenPhuongXa(), newDiaChi.getTenDuong(), newDiaChi.getSoNha());
         }
-        newDiaChi.setId(idDiaChi);
+        return idDiaChi;
+    }
+
+    public boolean themTro(String tinh, String huyen, String xa, String duong, String soNha, Double gia, Integer dienTich, String hinhAnh, String moTa) {
+        DiaChi newDiaChi = new DiaChi(null, soNha, duong, xa, huyen, tinh);
+        newDiaChi.setId(checkDiaChi(tinh, huyen, xa, duong, soNha));
         Phong newPhong = new Phong(null, newDiaChi, gia, moTa, dienTich, hinhAnh, DataDangNhap.chu, null);
         return PhongDAO.getInstance().insert(newPhong);
     }
 
-    public void xoaKhachKhoiTro(Phong obj) {
-        PhongDAO.getInstance().delete(obj);
+    public void xoaTro(Long id) {
+        PhongDAO.getInstance().deletePhong(id);
     }
 
-    public void suaPhong(Long id, DiaChi diaChi, Double gia, String moTa, Double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
-        PhongDAO.getInstance().updatePhong(id, diaChi, gia, moTa, dienTich, hinhAnh, chu, khach);
+    public boolean suaPhong(Long id, DiaChi diaChi, Double gia, String moTa, Integer dienTich, String hinhAnh, boolean isXoaKhach) {
+        Long idDiaChi = checkDiaChi(diaChi.getTenTinhThanhPho(), diaChi.getTenQuanHuyen(), diaChi.getTenPhuongXa(), diaChi.getTenDuong(), diaChi.getSoNha());
+
+        return PhongDAO.getInstance().updatePhong(id, idDiaChi, gia, moTa, dienTich, hinhAnh, isXoaKhach);
     }
 
-    public void suaChuPhong(Long id, String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt) {
-        ChuPhongDAO.getInstance().updateChuPhong(id, hoTen, ngaySinh, gioiTinh, CCCD, soDt);
+    public boolean suaChuPhong(Long id, String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt) {
+        return ChuPhongDAO.getInstance().updateChuPhong(id, hoTen, ngaySinh, gioiTinh, CCCD, soDt);
+    }
+
+    public boolean xoaChu(Long idChuPhong) {
+        return ChuPhongDAO.getInstance().deleteChuPhong(idChuPhong);
     }
 }

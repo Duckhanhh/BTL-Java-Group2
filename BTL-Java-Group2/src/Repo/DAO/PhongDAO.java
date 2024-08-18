@@ -9,6 +9,7 @@ import database.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,11 +76,14 @@ public class PhongDAO {
         }
     }
 
-    public void updatePhong(Long id, DiaChi diaChi, Double gia, String moTa, Double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
+    public boolean updatePhong(Long id, Long diaChi, Double gia, String moTa, Integer dienTich, String hinhAnh, boolean isXoaKhach) {
         try {
+            if (id == null) {
+                return false;
+            }
             Connection con = JDBCUtil.getConnection();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("UPDATE phong SET ");
+            stringBuilder.append("UPDATE Tro SET ");
 
             boolean firstField = true;
 
@@ -98,17 +102,12 @@ public class PhongDAO {
                 stringBuilder.append("HinhAnh = ?");
                 firstField = false;
             }
-            if (chu.getId() != null) {
-                if (!firstField) stringBuilder.append(", ");
-                stringBuilder.append("ChuTroID = ?");
-                firstField = false;
-            }
-            if (khach.getId() != null) {
+            if (isXoaKhach) {
                 if (!firstField) stringBuilder.append(", ");
                 stringBuilder.append("KhachHangID = ?");
                 firstField = false;
             }
-            if (diaChi.getId() != null) {
+            if (diaChi != null) {
                 if (!firstField) stringBuilder.append(", ");
                 stringBuilder.append("DiaChiID = ?");
                 firstField = false;
@@ -133,32 +132,28 @@ public class PhongDAO {
             if (hinhAnh != null) {
                 ps.setString(paramIndex++, hinhAnh);
             }
-            if (chu.getId() != null) {
-                ps.setLong(paramIndex++, chu.getId());
+            if (isXoaKhach) {
+                ps.setNull(paramIndex++, Types.INTEGER);
             }
-            if (khach.getId() != null) {
-                ps.setLong(paramIndex++, khach.getId());
-            }
-            if (diaChi.getId() != null) {
-                ps.setLong(paramIndex++, diaChi.getId());
+            if (diaChi != null) {
+                ps.setLong(paramIndex++, diaChi);
             }
             if (dienTich != null) {
-                ps.setDouble(paramIndex++, dienTich);
+                ps.setInt(paramIndex++, dienTich);
             }
-
             ps.setLong(paramIndex, id);
-
-            ps.executeUpdate();
-
+            int isChange = ps.executeUpdate();
             JDBCUtil.closeConnection(con);
+            return isChange > 0;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
 
-    public void delete(Phong obj) {
-        if (obj.getId() == null) {
+    public void deletePhong(Long id) {
+        if (id == null) {
             System.out.println("id is null");
             return;
         }
@@ -166,7 +161,7 @@ public class PhongDAO {
             Connection con = JDBCUtil.getConnection();
             String query = "DELETE FROM Tro WHERE TroID = ?";
             try (PreparedStatement ps = con.prepareStatement(query)) {
-                ps.setLong(1, obj.getId());
+                ps.setLong(1, id);
                 ps.execute();
             }
             JDBCUtil.closeConnection(con);
@@ -199,7 +194,7 @@ public class PhongDAO {
             if (TenDuong != null && !TenDuong.isEmpty() && !TenDuong.isBlank()) {
                 stringBuilder.append(" AND TenDuong LIKE ? ");
             }
-            if (soNha != null && !soNha.isBlank() && !soNha.isEmpty()){
+            if (soNha != null && !soNha.isBlank() && !soNha.isEmpty()) {
                 stringBuilder.append(" AND SoNha LIKE ? ");
             }
             if (timKiemGiaTu != null) {
@@ -235,7 +230,7 @@ public class PhongDAO {
                     ps.setString(num_col, TenDuong);
                     num_col++;
                 }
-                if (soNha != null && !soNha.isBlank() && !soNha.isEmpty()){
+                if (soNha != null && !soNha.isBlank() && !soNha.isEmpty()) {
                     ps.setString(num_col, soNha);
                     num_col++;
                 }
@@ -279,5 +274,17 @@ public class PhongDAO {
         }
 
         return list;
+    }
+
+    public void xoaPhongViXoaChu(Long idChu) {
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "DELETE FROM Tro WHERE ChuTroID = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, idChu);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

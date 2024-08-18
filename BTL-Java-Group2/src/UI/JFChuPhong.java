@@ -1,13 +1,18 @@
 package UI;
 
 import Controller.ChuPhongController;
+import Model.ChuPhong;
 import Model.Phong;
+import UI.Dialog.DialogChuPhongUpdate;
+import UI.Dialog.DialogSuaPhong;
 import UI.Dialog.DialogThemPhong;
 import UI.Setting.NumberTextField;
 import data.DataDangNhap;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JFChuPhong extends javax.swing.JFrame {
@@ -37,14 +42,14 @@ public class JFChuPhong extends javax.swing.JFrame {
         jTextField5 = new javax.swing.JTextField(8);
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField(8);
+        jTextField6 = new NumberTextField(8);
         jLabel10 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField(8);
+        jTextField7 = new NumberTextField(8);
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField(8);
-        jTextField11 = new javax.swing.JTextField(8);
+        jTextField10 = new NumberTextField(8);
+        jTextField11 = new NumberTextField(8);
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -73,7 +78,16 @@ public class JFChuPhong extends javax.swing.JFrame {
                 return canEdit[columnIndex];
             }
         });
+        jTable1.getSelectionModel().addListSelectionListener(evt -> {
+                    selectedRow = jTable1.getSelectedRow();
+                    jButton4.setEnabled(selectedRow != -1 && listIdChu.get(selectedRow).equals(DataDangNhap.chu.getId()));
+                    jButton5.setEnabled(selectedRow != -1 && listIdChu.get(selectedRow).equals(DataDangNhap.chu.getId()));
+                    if (selectedRow != -1)
+                        idPhong = (Long) jTable1.getValueAt(selectedRow, 1);
+                }
+        );
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
@@ -124,16 +138,22 @@ public class JFChuPhong extends javax.swing.JFrame {
         jButton1.addActionListener(evt -> jButton1ActionPerformed());
 
         jButton2.setText("Đặt lại");
+        jButton2.addActionListener(evt -> jButton2ActionPerformed());
 
         jButton3.setText("Thêm mới");
         jButton3.addActionListener(e -> {
             DialogThemPhong dialog = new DialogThemPhong();
             dialog.setVisible(true);
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         });
 
         jButton4.setText("Sửa");
+        jButton4.setEnabled(false);
+        jButton4.addActionListener(evt -> setjButton4ActionPerformed());
 
         jButton5.setText("Xóa");
+        jButton5.setEnabled(false);
+        jButton5.addActionListener(evt -> setjButton5ActionPerformed());
 
         jCheckBox1.setText("Phòng cho thuê");
         jCheckBox1.addActionListener(evt -> jCheckBox1ActionPerformed());
@@ -281,9 +301,15 @@ public class JFChuPhong extends javax.swing.JFrame {
         );
 
         jMenu2.setText("Setting");
-        jMenu2.add(new JMenuItem("Sửa tài khoản"));
-        jMenu2.add(new JMenuItem("Xóa tài khoản"));
-        jMenu2.add(new JMenuItem("Đăng xuất"));
+        updateItem = new JMenuItem("Sửa tài khoản");
+        updateItem.addActionListener(evt -> jMenuItem1ActionPerformed());
+        deleteItem = new JMenuItem("Xóa tài khoản");
+        deleteItem.addActionListener(evt -> jMenuItem2ActionPerformed());
+        logout = new JMenuItem("Đăng xuất");
+        logout.addActionListener(evt -> jMenuItem3ActionPerformed());
+        jMenu2.add(updateItem);
+        jMenu2.add(deleteItem);
+        jMenu2.add(logout);
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -308,10 +334,30 @@ public class JFChuPhong extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>
+    }
+
+    private void setjButton4ActionPerformed() {
+        DialogSuaPhong dialog = new DialogSuaPhong();
+        dialog.setVisible(true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    }
+
+    private void setjButton5ActionPerformed() {
+        Long id;
+        selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            id = (Long) jTable1.getValueAt(selectedRow, 1);
+            model.removeRow(selectedRow);
+            ChuPhongController.getInstance().xoaTro(id);
+        } else {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một hàng để xóa.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     // Xử lý sự kiện khi nhấn nút jButton1
     private void jButton1ActionPerformed() {
+        // Xử lý các JTextField
         jTextField1ActionPerformed();
         jTextField2ActionPerformed();
         jTextField3ActionPerformed();
@@ -322,12 +368,14 @@ public class JFChuPhong extends javax.swing.JFrame {
         jTextField10ActionPerformed();
         jTextField11ActionPerformed();
 
+        // Tìm kiếm dữ liệu
         List<Phong> listPhong = ChuPhongController.getInstance().timKiem(tfTinh, tfHuyen, tfXa, tfDuong, tfSoNha, giaThueTu, giaThueDen, dienTichTu, dienTichDen, idChu);
         if (listPhong == null || listPhong.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Danh sách phòng trống hoặc không thể tải được.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
+        // Cập nhật dữ liệu
         data = new Object[listPhong.size()][7];
         for (int i = 0; i < listPhong.size(); i++) {
             Phong phong = listPhong.get(i);
@@ -337,7 +385,8 @@ public class JFChuPhong extends javax.swing.JFrame {
             data[i][3] = phong.getDienTich();
             data[i][4] = phong.getHinhAnh();
             data[i][5] = (phong.getKhach() == null) ? null : phong.getKhach().getHoTen();
-            data[i][6] = phong.getChu().getHoTen();
+            listIdChu.add(phong.getChu().getId());
+            data[i][6] = phong.getChu().getTenTaiKhoan();
         }
 
         // Cập nhật mô hình dữ liệu của jTable1
@@ -345,6 +394,41 @@ public class JFChuPhong extends javax.swing.JFrame {
         model.setDataVector(data, new String[]{"STT", "ID", "Giá thuê", "Diện tích", "Hình ảnh", "Khách hàng", "Chủ phòng"});
     }
 
+    private void jButton2ActionPerformed() {
+        jTextField1.setText(null);
+        jTextField2.setText(null);
+        jTextField3.setText(null);
+        jTextField4.setText(null);
+        jTextField5.setText(null);
+        jTextField6.setText(null);
+        jTextField7.setText(null);
+        jTextField10.setText(null);
+        jTextField11.setText(null);
+        jCheckBox1.setSelected(false);
+    }
+
+    public void jMenuItem1ActionPerformed() {
+        DialogChuPhongUpdate dialog = new DialogChuPhongUpdate();
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setVisible(true);
+    }
+
+    public void jMenuItem2ActionPerformed() {
+        int a = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa tài khoản?");
+        if (a == JOptionPane.YES_OPTION) {
+            ChuPhongController.getInstance().xoaChu(DataDangNhap.chu.getId());
+            DangNhap dangNhap = new DangNhap();
+            dangNhap.setVisible(true);
+            dispose();
+        }
+    }
+
+    public void jMenuItem3ActionPerformed() {
+        DataDangNhap.chu = new ChuPhong();
+        DangNhap dangNhap = new DangNhap();
+        dangNhap.setVisible(true);
+        dispose();
+    }
 
     private void jTextField7ActionPerformed() {
         giaThueDen = jTextField7 != null && !jTextField7.getText().trim().isEmpty() ? Double.parseDouble(jTextField7.getText()) : null;
@@ -384,7 +468,7 @@ public class JFChuPhong extends javax.swing.JFrame {
 
     private void jCheckBox1ActionPerformed() {
         if (jCheckBox1.isSelected()) {
-            idChu = DataDangNhap.getId();
+            idChu = DataDangNhap.chu.getId();
         }
     }
 
@@ -393,6 +477,12 @@ public class JFChuPhong extends javax.swing.JFrame {
         chuPhong.setVisible(true);
     }
 
+    public static Long idPhong;
+    private List<Long> listIdChu = new ArrayList<>();
+    private JMenuItem updateItem;
+    private JMenuItem deleteItem;
+    private JMenuItem logout;
+    private Integer selectedRow;
     private Object[][] data;
     private String tfTinh;
     private String tfHuyen;

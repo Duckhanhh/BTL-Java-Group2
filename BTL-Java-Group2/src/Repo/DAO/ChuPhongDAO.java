@@ -15,7 +15,7 @@ public class ChuPhongDAO {
         return new ChuPhongDAO();
     }
 
-    
+
     public void insert(ChuPhong obj) {
         try {
             Connection con = JDBCUtil.getConnection();
@@ -39,7 +39,7 @@ public class ChuPhongDAO {
     }
 
 
-    public void updateChuPhong(Long id, String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt) {
+    public boolean updateChuPhong(Long id, String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt) {
         try {
             Connection con = JDBCUtil.getConnection();
             StringBuilder stringBuilder = new StringBuilder();
@@ -48,7 +48,6 @@ public class ChuPhongDAO {
             boolean firstField = true;
 
             if (hoTen != null) {
-                if (!firstField) stringBuilder.append(", ");
                 stringBuilder.append(" HoTen = ?");
                 firstField = false;
             }
@@ -70,10 +69,9 @@ public class ChuPhongDAO {
             if (soDt != null) {
                 if (!firstField) stringBuilder.append(", ");
                 stringBuilder.append(" SoDienThoai = ?");
-                firstField = false;
             }
 
-            stringBuilder.append(" WHERE TroID = ?");
+            stringBuilder.append(" WHERE ChuTroID = ?");
 
             PreparedStatement ps = con.prepareStatement(stringBuilder.toString());
 
@@ -97,48 +95,50 @@ public class ChuPhongDAO {
 
             ps.setLong(paramIndex, id);
 
-            ps.executeUpdate();
-
+            int isChange = ps.executeUpdate();
             JDBCUtil.closeConnection(con);
+            return isChange > 0;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-
     }
-    
-    public void delete(ChuPhong obj) {
-        if (obj.getId() == null) {
-            System.out.println("loi id is null");
-            return;
-        }
 
+    public boolean deleteChuPhong(Long idChuPhong) {
+        if (idChuPhong == null) {
+            System.out.println("id is null");
+            return false;
+        }
         try {
+            PhongDAO.getInstance().xoaPhongViXoaChu(idChuPhong);
             Connection con = JDBCUtil.getConnection();
-            String query = "DELETE FROM ChuTro WHERE ChuTroID=?";
-            try(PreparedStatement ps = con.prepareStatement(query)) {
-                ps.setLong(1, obj.getId());
-                ps.execute();
+            String query = "DELETE FROM ChuTro WHERE ChuTroID = ?";
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setLong(1, idChuPhong);
+                int isChange = ps.executeUpdate();
+                JDBCUtil.closeConnection(con);
+                JDBCUtil.closeConnection(con);
+                return isChange > 0;
             }
-            JDBCUtil.closeConnection(con);
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
 
-
-    
     public ChuPhong findById(Long id) {
         Connection co = JDBCUtil.getConnection();
         String query = " SELECT * FROM ChuTro WHERE ChuTroID=? ";
         ChuPhong ketQua = null;
-        try(PreparedStatement ps = co.prepareStatement(query)) {
+        try (PreparedStatement ps = co.prepareStatement(query)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Long chuTroId = rs.getLong("ChuTroId");
                 String hoTen = rs.getString("HoTen");
-                Date ngaySinh = new java.util.Date(rs.getDate("NgaySinh").getTime());
+                java.sql.Date ngaySinhSql = rs.getDate("NgaySinh");
+                Date ngaySinh = (ngaySinhSql != null) ? new Date(ngaySinhSql.getTime()) : null;
                 String gioiTinh = rs.getString("GioiTinh");
                 String cccd = rs.getString("SoCanCuocCongDan");
                 String soDienThoai = rs.getString("SoDienThoai");
@@ -147,21 +147,21 @@ public class ChuPhongDAO {
                 ketQua = new ChuPhong(chuTroId, hoTen, ngaySinh, gioiTinh, cccd, soDienThoai, taiKhoan, matKhau);
             }
             JDBCUtil.closeConnection(co);
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return ketQua;
     }
 
-    public List<Phong> findPhong(ChuPhong chu){
+    public List<Phong> findPhong(ChuPhong chu) {
         List<Phong> listPhong = new ArrayList<>();
 
         Connection con = JDBCUtil.getConnection();
         String query = " SELECT * FROM Tro WHERE ChuTroID = ? ";
-        try(PreparedStatement ps = con.prepareStatement(query)) {
+        try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setLong(1, chu.getId());
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Phong p = new Phong();
                 p.setId(rs.getLong("TroID"));
                 p.setDiaChi(DiaChiDAO.getInstance().findById(rs.getLong("DiaChiID")));
@@ -173,8 +173,8 @@ public class ChuPhongDAO {
                 p.setDienTich(rs.getInt("DienTich"));
                 listPhong.add(p);
             }
-        JDBCUtil.closeConnection(con);
-        } catch(Exception e){
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return listPhong;

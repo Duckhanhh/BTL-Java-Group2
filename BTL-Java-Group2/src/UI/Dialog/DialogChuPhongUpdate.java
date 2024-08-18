@@ -1,6 +1,13 @@
 package UI.Dialog;
 
+import Controller.ChuPhongController;
 import UI.Setting.NumberTextField;
+import data.DataDangNhap;
+
+import javax.swing.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DialogChuPhongUpdate extends javax.swing.JFrame {
 
@@ -38,7 +45,15 @@ public class DialogChuPhongUpdate extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("SĐT:");
         jButton1.setText("Cập nhật");
+        jButton1.addActionListener(evt -> {
+            try {
+                jButton1ActionPerformed();
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        });
         jButton2.setText("Hủy");
+        jButton2.addActionListener(evt -> jButton2ActionPerformed());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,6 +119,25 @@ public class DialogChuPhongUpdate extends javax.swing.JFrame {
         pack();
     }
 
+    public void jButton1ActionPerformed() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String hoten = jTextField1.getText();
+        Date ngaySinh = sdf.parse(jTextField2.getText());
+        String gioiTinh = jTextField3.getText();
+        String cccd = jTextField4.getText();
+        String soDT = jTextField5.getText();
+
+        boolean isSuccess = ChuPhongController.getInstance().suaChuPhong(DataDangNhap.chu.getId(), hoten, ngaySinh, gioiTinh, cccd, soDT);
+        if (isSuccess) {
+            JOptionPane.showMessageDialog(null, "Cập nhật thành công!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Cập nhật thất bại!");
+        }
+    }
+
+    public void jButton2ActionPerformed() {
+        dispose();
+    }
 
     public static void main(String[] args) {
         try {

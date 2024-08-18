@@ -1,6 +1,7 @@
 package Repo;
 
 import Model.ChuPhong;
+import Model.KhachHang;
 import data.DataDangNhap;
 import database.JDBCUtil;
 
@@ -32,13 +33,16 @@ public class TaiKhoanRepo {
                 if (resultSet.next()) {
                     isAuthenticated = true;
                     if (role == 0) {
+                        DataDangNhap.chu = new ChuPhong();
                         DataDangNhap.chu.setId(resultSet.getLong("ChuTroID"));
                         DataDangNhap.chu.setHoTen(resultSet.getString("HoTen"));
                         DataDangNhap.chu.setNgaySinh(resultSet.getDate("NgaySinh"));
                         DataDangNhap.chu.setGioiTinh(resultSet.getString("GioiTinh"));
                         DataDangNhap.chu.setCCCD(resultSet.getString("SoCanCuocCongDan"));
                         DataDangNhap.chu.setSoDt(resultSet.getString("SoDienThoai"));
+                        System.out.println(DataDangNhap.chu);
                     } else {
+                        DataDangNhap.khachHang = new KhachHang();
                         DataDangNhap.khachHang.setId(resultSet.getLong("KhachHangID"));
                         DataDangNhap.khachHang.setHoTen(resultSet.getString("HoTen"));
                         DataDangNhap.khachHang.setNamSinh(resultSet.getDate("NgaySinh"));
