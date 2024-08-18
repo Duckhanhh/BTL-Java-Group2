@@ -170,7 +170,7 @@ public class ChuPhongDAO {
                 p.setHinhAnh(rs.getString("HinhAnh"));
                 p.setChu(ChuPhongDAO.getInstance().findById(chu.getId()));
                 p.setKhach(KhachHangDAO.getInstance().findById(rs.getLong("KhachHangID")));
-                p.setDienTich(rs.getDouble("DienTich"));
+                p.setDienTich(rs.getInt("DienTich"));
                 listPhong.add(p);
             }
         JDBCUtil.closeConnection(con);

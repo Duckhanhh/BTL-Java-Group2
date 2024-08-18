@@ -1,5 +1,6 @@
 package Model;
 
+import Repo.DAO.KhachHangDAO;
 import database.JDBCUtil;
 
 import java.io.File;
@@ -10,9 +11,9 @@ import java.sql.ResultSet;
 public class Phong {
     private Long id;
     private DiaChi diaChi;
-    private double gia;
+    private Double gia;
     private String moTa;
-    private double dienTich;
+    private Integer dienTich;
     private String hinhAnh;
     private ChuPhong chu;
     private KhachHang khach;
@@ -20,7 +21,7 @@ public class Phong {
     public Phong() {
     }
 
-    public Phong(Long id, DiaChi diaChi, double gia, String moTa, double dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
+    public Phong(Long id, DiaChi diaChi, Double gia, String moTa, Integer dienTich, String hinhAnh, ChuPhong chu, KhachHang khach) {
         this.id = id;
         this.diaChi = diaChi;
         this.gia = gia;
@@ -47,11 +48,11 @@ public class Phong {
         this.diaChi = diaChi;
     }
 
-    public double getGia() {
+    public Double getGia() {
         return gia;
     }
 
-    public void setGia(double gia) {
+    public void setGia(Double gia) {
         this.gia = gia;
     }
 
@@ -63,11 +64,11 @@ public class Phong {
         this.moTa = moTa;
     }
 
-    public double getDienTich() {
+    public Integer getDienTich() {
         return dienTich;
     }
 
-    public void setDienTich(double dienTich) {
+    public void setDienTich(Integer dienTich) {
         this.dienTich = dienTich;
     }
 

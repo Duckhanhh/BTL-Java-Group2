@@ -91,4 +91,18 @@ public class ChuPhong {
     public void setMatKhau(String matKhau) {
         this.matKhau = matKhau;
     }
+
+    @Override
+    public String toString() {
+        return "ChuPhong{" +
+                "id=" + id +
+                ", hoTen='" + hoTen + '\'' +
+                ", ngaySinh=" + ngaySinh +
+                ", gioiTinh='" + gioiTinh + '\'' +
+                ", CCCD='" + CCCD + '\'' +
+                ", soDt='" + soDt + '\'' +
+                ", tenTaiKhoan='" + tenTaiKhoan + '\'' +
+                ", matKhau='" + matKhau + '\'' +
+                '}';
+    }
 }

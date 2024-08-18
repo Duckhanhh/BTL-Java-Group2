@@ -15,10 +15,6 @@ public class Main {
 //        addComponentsToFrame(frame);
 //
 //        frame.setVisible(true);
-        JDBCUtil.getConnection();
-
-        Phong phong = new Phong();
-        System.out.println(phong.getKhach());
     }
 
     private static void addComponentsToFrame(JFrame frame) {
