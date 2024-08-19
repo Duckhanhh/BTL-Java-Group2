@@ -1,8 +1,5 @@
 package Repo.DAO;
 
-import Model.ChuPhong;
-import Model.DiaChi;
-import Model.KhachHang;
 import Model.Phong;
 import data.DataDangNhap;
 import database.JDBCUtil;
@@ -171,9 +168,6 @@ public class PhongDAO {
         }
     }
 
-    public Phong findById(Long id) {
-        return null;
-    }
 
     public List<Phong> findPhongChu(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, Double timKiemGiaTu, Double timKiemGiaDen, Integer dienTichTu, Integer dienTichDen, Long idChu) {
         List<Phong> list = new ArrayList<>();

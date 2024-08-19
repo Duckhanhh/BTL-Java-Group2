@@ -80,16 +80,6 @@ public class DiaChiDAO {
         }
     }
 
-    public void update(DiaChi obj) {
-
-    }
-
-
-    public void delete(DiaChi obj) {
-
-    }
-
-
     public DiaChi findById(Long id) {
         Connection co = JDBCUtil.getConnection();
         String query = " SELECT * FROM DiaChi WHERE DiaChiID=? ";
