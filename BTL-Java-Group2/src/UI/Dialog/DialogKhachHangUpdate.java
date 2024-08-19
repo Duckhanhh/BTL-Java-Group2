@@ -1,12 +1,18 @@
 package UI.Dialog;
 
+import Controller.KhachHangController;
 import UI.Setting.NumberTextField;
+import data.DataDangNhap;
 
 import javax.swing.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DialogKhachHangUpdate extends JFrame {
 
     public DialogKhachHangUpdate() {
+        setLocationRelativeTo(null);
         initComponents();
     }
 
@@ -40,7 +46,15 @@ public class DialogKhachHangUpdate extends JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("SĐT:");
         jButton1.setText("Cập nhật");
+        jButton1.addActionListener(e -> {
+            try {
+                jButton1ActionPerformed();
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         jButton2.setText("Hủy");
+        jButton2.addActionListener(e -> jButton2ActionPerformed());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,28 +120,30 @@ public class DialogKhachHangUpdate extends JFrame {
         pack();
     }
 
+    public void jButton1ActionPerformed() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String hoten = jTextField1.getText();
+        Date ngaySinh = sdf.parse(jTextField2.getText());
+        String gioiTinh = jTextField3.getText();
+        String cccd = jTextField4.getText();
+        String soDT = jTextField5.getText();
+
+        boolean isSuccess = KhachHangController.getInstance().suaKhachHang(DataDangNhap.khachHang.getId(), hoten, ngaySinh, gioiTinh, cccd, soDT);
+        if (isSuccess) {
+            JOptionPane.showMessageDialog(null, "Cập nhật thành công!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Cập nhật thất bại!");
+        }
+    }
+
+    public void jButton2ActionPerformed() {
+        dispose();
+    }
 
     public static void main(String[] args) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DialogChuPhongUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DialogChuPhongUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DialogChuPhongUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DialogChuPhongUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DialogChuPhongUpdate().setVisible(true);
+                new DialogKhachHangUpdate().setVisible(true);
             }
         });
     }

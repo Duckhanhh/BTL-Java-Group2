@@ -469,6 +469,8 @@ public class JFChuPhong extends javax.swing.JFrame {
     private void jCheckBox1ActionPerformed() {
         if (jCheckBox1.isSelected()) {
             idChu = DataDangNhap.chu.getId();
+        } else {
+            idChu = null;
         }
     }
 

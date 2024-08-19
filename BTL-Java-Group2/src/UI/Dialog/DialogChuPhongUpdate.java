@@ -12,6 +12,7 @@ import java.util.Date;
 public class DialogChuPhongUpdate extends javax.swing.JFrame {
 
     public DialogChuPhongUpdate() {
+        setLocationRelativeTo(null);
         initComponents();
     }
 

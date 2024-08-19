@@ -17,31 +17,7 @@ public class KhachHangDAO {
         return new KhachHangDAO();
     }
 
-
-    public void insert(KhachHang obj) {
-        try {
-            Connection con = JDBCUtil.getConnection();
-            String query = " INSERT INTO KhachHang(KhachHangID, HoTen, NgaySinh, GioiTinh, SoCanCuocCongDan, SoDienThoai, TaiKhoan, MatKhau) VALUES\n" +
-                    "(NEXT VALUE FOR KhachHang_seq, ?, ?, ?, ?, ?, ?, ? ); ";
-            try (PreparedStatement ps = con.prepareStatement(query)) {
-                ps.setString(1, obj.getHoTen());
-                ps.setDate(2, new java.sql.Date(obj.getNamSinh().getTime()));
-                ps.setString(3, obj.getGioiTinh());
-                ps.setString(4, obj.getCccd());
-                ps.setString(5, obj.getSoDienThoai());
-                ps.setString(6, obj.getEmail());
-                ps.setString(7, obj.getMatKhau());
-                ps.executeUpdate();
-            }
-            System.out.println("Insert Successful !");
-            JDBCUtil.closeConnection(con);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void updateKhachHang(Long id, String hoTen, Date namSinh, String gioiTinh, String cccd, String soDienThoai) {
+    public boolean updateKhachHang(Long id, String hoTen, Date ngaySinh, String gioiTinh, String CCCD, String soDt) {
         try {
             Connection con = JDBCUtil.getConnection();
             StringBuilder stringBuilder = new StringBuilder();
@@ -50,13 +26,12 @@ public class KhachHangDAO {
             boolean firstField = true;
 
             if (hoTen != null) {
-                if (!firstField) stringBuilder.append(", ");
                 stringBuilder.append(" HoTen = ?");
                 firstField = false;
             }
-            if (namSinh != null) {
+            if (ngaySinh != null) {
                 if (!firstField) stringBuilder.append(", ");
-                stringBuilder.append(" NamSinh = ?");
+                stringBuilder.append(" NgaySinh = ?");
                 firstField = false;
             }
             if (gioiTinh != null) {
@@ -64,18 +39,17 @@ public class KhachHangDAO {
                 stringBuilder.append(" GioiTinh = ?");
                 firstField = false;
             }
-            if (cccd != null) {
+            if (CCCD != null) {
                 if (!firstField) stringBuilder.append(", ");
                 stringBuilder.append(" CCCD = ?");
                 firstField = false;
             }
-            if (soDienThoai != null) {
+            if (soDt != null) {
                 if (!firstField) stringBuilder.append(", ");
                 stringBuilder.append(" SoDienThoai = ?");
-                firstField = false;
             }
 
-            stringBuilder.append(" WHERE TroID = ?");
+            stringBuilder.append(" WHERE KhachHangID = ?");
 
             PreparedStatement ps = con.prepareStatement(stringBuilder.toString());
 
@@ -84,26 +58,27 @@ public class KhachHangDAO {
             if (hoTen != null) {
                 ps.setString(paramIndex++, hoTen);
             }
-            if (namSinh != null) {
-                ps.setDate(paramIndex++, (java.sql.Date) namSinh);
+            if (ngaySinh != null) {
+                ps.setDate(paramIndex++, (java.sql.Date) ngaySinh);
             }
             if (gioiTinh != null) {
                 ps.setString(paramIndex++, gioiTinh);
             }
-            if (cccd != null) {
-                ps.setString(paramIndex++, cccd);
+            if (CCCD != null) {
+                ps.setString(paramIndex++, CCCD);
             }
-            if (soDienThoai != null) {
-                ps.setString(paramIndex++, soDienThoai);
+            if (soDt != null) {
+                ps.setString(paramIndex++, soDt);
             }
 
             ps.setLong(paramIndex, id);
 
-            ps.executeUpdate();
-
+            int isChange = ps.executeUpdate();
             JDBCUtil.closeConnection(con);
+            return isChange > 0;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -118,13 +93,14 @@ public class KhachHangDAO {
             while (rs.next()) {
                 Long KhachHangID = rs.getLong("KhachHangID");
                 String hoTen = rs.getString("HoTen");
-                Date namSinh = new java.util.Date(rs.getDate("NgaySinh").getTime());
+                java.sql.Date ngaySinhSql = rs.getDate("NgaySinh");
+                Date ngaySinh = (ngaySinhSql != null) ? new Date(ngaySinhSql.getTime()) : null;
                 String gioiTinh = rs.getString("GioiTinh");
                 String cccd = rs.getString("SoCanCuocCongDan");
                 String soDienThoai = rs.getString("SoDienThoai");
                 String email = rs.getString("TaiKhoan");
                 String matKhau = rs.getString("MatKhau");
-                ketQua = new KhachHang(KhachHangID, hoTen, namSinh, gioiTinh, cccd, soDienThoai, email, matKhau);
+                ketQua = new KhachHang(KhachHangID, hoTen, ngaySinh, gioiTinh, cccd, soDienThoai, email, matKhau);
             }
             JDBCUtil.closeConnection(co);
         } catch (Exception e) {
@@ -133,49 +109,26 @@ public class KhachHangDAO {
         return ketQua;
     }
 
-    public List<Phong> findPhong(KhachHang khach) {
-        List<Phong> listPhong = new ArrayList<>();
 
-        Connection con = JDBCUtil.getConnection();
-        String query = " SELECT * FROM Tro WHERE KhachHangID = ? ";
-        try (PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setLong(1, khach.getId());
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Phong p = new Phong();
-                p.setId(rs.getLong("TroID"));
-                p.setDiaChi(DiaChiDAO.getInstance().findById(rs.getLong("DiaChiID")));
-                p.setGia((rs.getDouble("GiaPhong")));
-                p.setMoTa(rs.getString("MoTa"));
-                p.setHinhAnh(rs.getString("HinhAnh"));
-                p.setChu(ChuPhongDAO.getInstance().findById(rs.getLong("ChuPhongID")));
-                p.setKhach(KhachHangDAO.getInstance().findById(khach.getId()));
-                p.setDienTich(rs.getInt("DienTich"));
-                listPhong.add(p);
-            }
-            JDBCUtil.closeConnection(con);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listPhong;
-    }
-
-
-    public void delete(KhachHang obj) {
-        if (obj.getId() == null) {
-            System.out.println("KhachHang id is null");
-            return;
+    public boolean delete(Long id) {
+        if (id == null) {
+            System.out.println("KhachHangId is null");
+            return false;
         }
         try {
             Connection con = JDBCUtil.getConnection();
-            String query = "DELETE FROM KhachHang WHERE KhachHangID = ?";
+            String query = "UPDATE Tro SET KhachHangID = null WHERE KhachHangID = ?; DELETE FROM KhachHang WHERE KhachHangID = ?;";
             try (PreparedStatement ps = con.prepareStatement(query)) {
-                ps.setLong(1, obj.getId());
-                ps.execute();
-            }
+                ps.setLong(1, id);
+                ps.setLong(2, id);
+                int isChanged =  ps.executeUpdate();
+
             JDBCUtil.closeConnection(con);
+            return isChanged > 0;
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 

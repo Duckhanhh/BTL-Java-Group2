@@ -11,6 +11,7 @@ public class DialogThemPhong extends JFrame {
      * Creates new form DialogThemPhong
      */
     public DialogThemPhong() {
+        setLocationRelativeTo(null);
         initComponents();
     }
 

@@ -19,7 +19,7 @@ public class ChuPhongController {
     }
 
     public List<Phong> timKiem(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, Double timKiemGiaTu, Double timKiemGiaDen, Integer dienTichTu, Integer dienTichDen, Long idChu) {
-        return PhongDAO.getInstance().findPhong(Tinh, Huyen, Xa, TenDuong, soNha, timKiemGiaTu, timKiemGiaDen, dienTichTu, dienTichDen, idChu);
+        return PhongDAO.getInstance().findPhongChu(Tinh, Huyen, Xa, TenDuong, soNha, timKiemGiaTu, timKiemGiaDen, dienTichTu, dienTichDen, idChu);
     }
 
     public Long checkDiaChi(String tinh, String huyen, String xa, String duong, String soNha) {

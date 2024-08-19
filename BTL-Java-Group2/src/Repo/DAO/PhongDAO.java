@@ -4,6 +4,7 @@ import Model.ChuPhong;
 import Model.DiaChi;
 import Model.KhachHang;
 import Model.Phong;
+import data.DataDangNhap;
 import database.JDBCUtil;
 
 import java.sql.Connection;
@@ -174,7 +175,7 @@ public class PhongDAO {
         return null;
     }
 
-    public List<Phong> findPhong(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, Double timKiemGiaTu, Double timKiemGiaDen, Integer dienTichTu, Integer dienTichDen, Long idChu) {
+    public List<Phong> findPhongChu(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, Double timKiemGiaTu, Double timKiemGiaDen, Integer dienTichTu, Integer dienTichDen, Long idChu) {
         List<Phong> list = new ArrayList<>();
         int num_col = 1;
         try {
@@ -276,6 +277,108 @@ public class PhongDAO {
         return list;
     }
 
+    public List<Phong> findPhongKhach(String Tinh, String Huyen, String Xa, String TenDuong, String soNha, Double timKiemGiaTu, Double timKiemGiaDen, Integer dienTichTu, Integer dienTichDen, Long idKhach) {
+        List<Phong> list = new ArrayList<>();
+        int num_col = 1;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(" SELECT * FROM Tro INNER JOIN DiaChi ON Tro.DiaChiID = DiaChi.DiaChiID WHERE 1=1 ");
+            //Doan nay de hoan thien cau lenh sql
+            if (Tinh != null && !Tinh.isBlank() && !Tinh.isEmpty()) {
+                stringBuilder.append(" AND TinhThanhPho LIKE ? ");
+            }
+            if (Huyen != null && !Huyen.isEmpty() && !Huyen.isBlank()) {
+                stringBuilder.append(" AND HuyenQuan LIKE ? ");
+            }
+            if (Xa != null && !Xa.isBlank() && !Xa.isEmpty()) {
+                stringBuilder.append(" AND PhuongXa LIKE ? ");
+            }
+            if (TenDuong != null && !TenDuong.isEmpty() && !TenDuong.isBlank()) {
+                stringBuilder.append(" AND TenDuong LIKE ? ");
+            }
+            if (soNha != null && !soNha.isBlank() && !soNha.isEmpty()) {
+                stringBuilder.append(" AND SoNha LIKE ? ");
+            }
+            if (timKiemGiaTu != null) {
+                stringBuilder.append(" AND GiaPhong > ?  ");
+            }
+            if (timKiemGiaDen != null) {
+                stringBuilder.append(" AND GiaPhong < ? ");
+            }
+            if (dienTichTu != null) {
+                stringBuilder.append(" AND DienTich > ?  ");
+            }
+            if (dienTichDen != null) {
+                stringBuilder.append(" AND DienTich < ? ");
+            }
+            if (idKhach != null) {
+                stringBuilder.append(" AND KhachHangID = ?");
+            }
+
+            try (PreparedStatement ps = con.prepareStatement(stringBuilder.toString())) {
+                if (Tinh != null && !Tinh.isBlank() && !Tinh.isEmpty()) {
+                    ps.setString(num_col, Tinh);
+                    num_col++;
+                }
+                if (Huyen != null && !Huyen.isEmpty() && !Huyen.isBlank()) {
+                    ps.setString(num_col, Huyen);
+                    num_col++;
+                }
+                if (Xa != null && !Xa.isBlank() && !Xa.isEmpty()) {
+                    ps.setString(num_col, Xa);
+                    num_col++;
+                }
+                if (TenDuong != null && !TenDuong.isEmpty() && !TenDuong.isBlank()) {
+                    ps.setString(num_col, TenDuong);
+                    num_col++;
+                }
+                if (soNha != null && !soNha.isBlank() && !soNha.isEmpty()) {
+                    ps.setString(num_col, soNha);
+                    num_col++;
+                }
+                if (timKiemGiaTu != null) {
+                    ps.setDouble(num_col, timKiemGiaTu);
+                    num_col++;
+                }
+                if (timKiemGiaDen != null) {
+                    ps.setDouble(num_col, timKiemGiaDen);
+                    num_col++;
+                }
+                if (dienTichTu != null) {
+                    ps.setDouble(num_col, dienTichTu);
+                    num_col++;
+                }
+                if (dienTichDen != null) {
+                    ps.setDouble(num_col, dienTichDen);
+                    num_col++;
+                }
+                if (idKhach != null) {
+                    ps.setLong(num_col, idKhach);
+                }
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Phong p = new Phong();
+                    p.setId(rs.getLong("TroID"));
+                    p.setDiaChi(DiaChiDAO.getInstance().findById(rs.getLong("DiaChiID")));
+                    p.setGia((rs.getDouble("GiaPhong")));
+                    p.setMoTa(rs.getString("MoTa"));
+                    //moi
+                    p.setDienTich(rs.getInt("DienTich"));
+                    p.setHinhAnh(rs.getString("HinhAnh"));
+                    p.setChu(ChuPhongDAO.getInstance().findById(rs.getLong("ChuTroID")));
+                    p.setKhach(KhachHangDAO.getInstance().findById(rs.getLong("KhachHangID")));
+                    list.add(p);
+                }
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
     public void xoaPhongViXoaChu(Long idChu) {
         try {
             Connection con = JDBCUtil.getConnection();
@@ -285,6 +388,33 @@ public class PhongDAO {
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean khachDangKy(Long idPhong) {
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "UPDATE Tro SET KhachHangID = ? WHERE TroID = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, DataDangNhap.khachHang.getId());
+            ps.setLong(2, idPhong);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean khachHuyDangKy(Long idPhong) {
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "UPDATE Tro SET KhachHangID = null WHERE TroID = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setLong(1, idPhong);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

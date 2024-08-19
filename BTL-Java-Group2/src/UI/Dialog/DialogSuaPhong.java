@@ -11,6 +11,7 @@ import javax.swing.*;
 public class DialogSuaPhong extends javax.swing.JFrame {
 
     public DialogSuaPhong() {
+        setLocationRelativeTo(null);
         initComponents();
     }
 

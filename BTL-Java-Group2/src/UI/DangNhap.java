@@ -78,13 +78,10 @@ public class DangNhap extends JFrame {
             }
         });
 
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                DangKy registerForm = new DangKy();
-                registerForm.setVisible(true);
-                dispose();
-            }
+        registerButton.addActionListener(e -> {
+            DangKy registerForm = new DangKy();
+            registerForm.setVisible(true);
+            dispose();
         });
     }
 

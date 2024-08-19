@@ -1,9 +1,15 @@
 package UI;
 
+import Controller.KhachHangController;
+import Model.KhachHang;
+import Model.Phong;
+import UI.Dialog.DialogKhachHangUpdate;
 import UI.Setting.NumberTextField;
-
+import data.DataDangNhap;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JFKhachHang extends javax.swing.JFrame {
 
@@ -42,7 +48,6 @@ public class JFKhachHang extends javax.swing.JFrame {
         jTextField11 = new javax.swing.JTextField(8);
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
@@ -56,6 +61,33 @@ public class JFKhachHang extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(data, new String[]{"STT", "ID", "Giá thuê", "Diện tích", "Hình ảnh", "Khách hàng", "Chủ phòng"}) {
+            Class[] types = new Class[]{
+                    java.lang.Integer.class, java.lang.Long.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        });
+        jTable1.getSelectionModel().addListSelectionListener(evt -> {
+                    selectedRow = jTable1.getSelectedRow();
+                    jButton4.setEnabled(selectedRow != -1 && listIdKhach.get(selectedRow).equals(-1L));
+                    jButton5.setEnabled(selectedRow != -1 && listIdKhach.get(selectedRow).equals(DataDangNhap.khachHang.getId()));
+                    if (selectedRow != -1)
+                        idPhong = (Long) jTable1.getValueAt(selectedRow, 1);
+                }
+        );
+
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Chương trình quản lý & tìm kiếm trọ");
 
@@ -67,98 +99,62 @@ public class JFKhachHang extends javax.swing.JFrame {
 
         jLabel3.setText("Tỉnh(TP):");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
+        jTextField1.addActionListener(evt -> jTextField1ActionPerformed());
 
         jLabel4.setText("Huyện(Quận):");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
+        jTextField2.addActionListener(evt -> jTextField2ActionPerformed());
 
         jLabel5.setText("Phường(Xã):");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
+        jTextField3.addActionListener(evt -> jTextField3ActionPerformed());
 
         jLabel6.setText("Đường: ");
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
+        jTextField4.addActionListener(evt -> jTextField4ActionPerformed());
 
         jLabel7.setText("Số nhà:");
 
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
+        jTextField5.addActionListener(evt -> jTextField5ActionPerformed());
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Giá thuê:");
 
         jLabel9.setText("Từ:");
 
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
+        jTextField6.addActionListener(evt -> jTextField6ActionPerformed());
 
         jLabel10.setText("Đến:");
 
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
-            }
-        });
+        jTextField7.addActionListener(evt -> jTextField7ActionPerformed());
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel11.setText("Diện tích:");
+        jTextField11.addActionListener(evt -> jTextField11ActionPerformed());
 
         jLabel12.setText("Đến:");
 
         jLabel13.setText("Từ:");
 
-        jTextField10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField10ActionPerformed(evt);
-            }
-        });
+        jTextField10.addActionListener(evt -> jTextField10ActionPerformed());
 
 
         jButton1.setText("Tìm kiếm");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         jButton2.setText("Đặt lại");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
 
-        jButton3.setText("Thêm mới");
+        jButton4.setText("Đăng ký");
+        jButton4.addActionListener(this::jButton4ActionPerformed);
+        jButton4.setEnabled(false);
 
-        jButton4.setText("Sửa");
-
-        jButton5.setText("Xóa");
+        jButton5.setText("Hủy Đăng ký");
+        jButton5.addActionListener(this::jButton5ActionPerformed);
+        jButton5.setEnabled(false);
 
         jCheckBox1.setText("Phòng đã thuê");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
-            }
-        });
+        jCheckBox1.addActionListener(this::jCheckBox1ActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -215,7 +211,6 @@ public class JFKhachHang extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jButton2)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jButton3)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(jButton4)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -271,7 +266,6 @@ public class JFKhachHang extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jButton1)
                                         .addComponent(jButton2)
-                                        .addComponent(jButton3)
                                         .addComponent(jButton4)
                                         .addComponent(jButton5))
                                 .addContainerGap())
@@ -279,43 +273,12 @@ public class JFKhachHang extends javax.swing.JFrame {
 
         jPanel2.setAutoscrolls(true);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null}
-                },
-                new String[]{
-                        "STT", "ID", "Giá thuê", "Diện tích", "Hình ảnh", "Khách hàng", "Chủ phòng"
-                }
-        ) {
-            Class[] types = new Class[]{
-                    java.lang.Integer.class, java.lang.Long.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean[]{
-                    false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types[columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
-            }
-        });
         jTable1.setColumnSelectionAllowed(true);
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane2.setViewportView(jTable1);
         jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.getAccessibleContext().setAccessibleDescription("");
+        jTable1.setRowSelectionAllowed(true);
+        jTable1.setColumnSelectionAllowed(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -335,9 +298,15 @@ public class JFKhachHang extends javax.swing.JFrame {
         );
 
         jMenu2.setText("Setting");
-        jMenu2.add(new JMenuItem("Sửa tài khoản"));
-        jMenu2.add(new JMenuItem("Xóa tài khoản"));
-        jMenu2.add(new JMenuItem("Đăng xuất"));
+        updateItem = new JMenuItem("Sửa tài khoản");
+        updateItem.addActionListener(evt -> jMenuItem1ActionPerformed());
+        deleteItem = new JMenuItem("Xóa tài khoản");
+        deleteItem.addActionListener(evt -> jMenuItem2ActionPerformed());
+        logout = new JMenuItem("Đăng xuất");
+        logout.addActionListener(evt -> jMenuItem3ActionPerformed());
+        jMenu2.add(updateItem);
+        jMenu2.add(deleteItem);
+        jMenu2.add(logout);
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -364,54 +333,171 @@ public class JFKhachHang extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        // Xử lý các JTextField
+        jTextField1ActionPerformed();
+        jTextField2ActionPerformed();
+        jTextField3ActionPerformed();
+        jTextField4ActionPerformed();
+        jTextField5ActionPerformed();
+        jTextField6ActionPerformed();
+        jTextField7ActionPerformed();
+        jTextField10ActionPerformed();
+        jTextField11ActionPerformed();
+
+        // Tìm kiếm dữ liệu
+        List<Phong> listPhong = KhachHangController.getInstance().timKiem(tfTinh, tfHuyen, tfXa, tfDuong, tfSoNha, giaThueTu, giaThueDen, dienTichTu, dienTichDen, idKhach);
+        if (listPhong == null || listPhong.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Danh sách phòng trống hoặc không thể tải được.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Cập nhật dữ liệu
+        data = new Object[listPhong.size()][7];
+        listIdKhach = new ArrayList<>();
+        for (int i = 0; i < listPhong.size(); i++) {
+            Phong phong = listPhong.get(i);
+            data[i][0] = i + 1;  // STT
+            data[i][1] = phong.getId();
+            data[i][2] = phong.getGia();
+            data[i][3] = phong.getDienTich();
+            data[i][4] = phong.getHinhAnh();
+            data[i][5] = (phong.getKhach() == null) ? null : phong.getKhach().getEmail();
+            listIdKhach.add((phong.getKhach() == null) ? -1L : phong.getKhach().getId());
+            data[i][6] = phong.getChu().getTenTaiKhoan();
+
+            // Cập nhật mô hình dữ liệu của jTable1
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+            model.setDataVector(data, new String[]{"STT", "ID", "Giá thuê", "Diện tích", "Hình ảnh", "Khách hàng", "Chủ phòng"});
+        }
     }
 
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        jTextField1.setText(null);
+        jTextField2.setText(null);
+        jTextField3.setText(null);
+        jTextField4.setText(null);
+        jTextField5.setText(null);
+        jTextField6.setText(null);
+        jTextField7.setText(null);
+        jTextField10.setText(null);
+        jTextField11.setText(null);
+        jCheckBox1.setSelected(false);
     }
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
+        boolean isSuccess = KhachHangController.getInstance().dangKyPhong(idPhong);
+        if (isSuccess) {
+            JOptionPane.showMessageDialog(null, "Đăng ký phòng thành công!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Đăng ký phòng không thành công!");
+        }
     }
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {
+        int a = JOptionPane.showConfirmDialog(null, "Bạn có muốn hủy đăng ký phòng?");
+        if (a == JOptionPane.YES_OPTION) {
+            boolean isSuccess = KhachHangController.getInstance().huyDangKyPhong(idPhong);
+            if (isSuccess) {
+                JOptionPane.showMessageDialog(null, "Hủy đăng ký phòng thành công!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Hủy đăng ký phòng không thành công!");
+            }
+        }
     }
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    private void jTextField7ActionPerformed() {
+        giaThueDen = jTextField7 != null && !jTextField7.getText().trim().isEmpty() ? Double.parseDouble(jTextField7.getText()) : null;
     }
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    private void jTextField6ActionPerformed() {
+        giaThueTu = jTextField6 != null && !jTextField6.getText().trim().isEmpty() ? Double.parseDouble(jTextField6.getText()) : null;
     }
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    private void jTextField5ActionPerformed() {
+        tfSoNha = !jTextField5.getText().isEmpty() && !jTextField5.getText().isBlank() ? jTextField5.getText() : null;
     }
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    private void jTextField4ActionPerformed() {
+        tfDuong = !jTextField4.getText().isEmpty() && !jTextField4.getText().isBlank() ? jTextField4.getText() : null;
     }
 
-    private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    private void jTextField3ActionPerformed() {
+        tfXa = !jTextField3.getText().isEmpty() && !jTextField3.getText().isBlank() ? jTextField3.getText() : null;
+    }
+
+    private void jTextField2ActionPerformed() {
+        tfHuyen = !jTextField2.getText().isEmpty() && !jTextField2.getText().isBlank() ? jTextField2.getText() : null;
+    }
+
+    private void jTextField1ActionPerformed() {
+        tfTinh = !jTextField1.getText().isEmpty() && !jTextField1.getText().isBlank() ? jTextField1.getText() : null;
+    }
+
+    private void jTextField10ActionPerformed() {
+        dienTichTu = !jTextField10.getText().isBlank() && !jTextField10.getText().isEmpty() ? Integer.parseInt(jTextField10.getText()) : null;
+    }
+
+    private void jTextField11ActionPerformed() {
+        dienTichDen = !jTextField11.getText().isBlank() && !jTextField11.getText().isEmpty() ? Integer.parseInt(jTextField11.getText()) : null;
     }
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        if (jCheckBox1.isSelected()) {
+            idKhach = DataDangNhap.khachHang.getId();
+        } else {
+            idKhach = null;
+        }
+    }
+
+    public void jMenuItem1ActionPerformed() {
+        DialogKhachHangUpdate dialog = new DialogKhachHangUpdate();
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setVisible(true);
+    }
+
+    public void jMenuItem2ActionPerformed() {
+        int a = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa tài khoản?");
+        if (a == JOptionPane.YES_OPTION) {
+            KhachHangController.getInstance().xoaKhachHang(DataDangNhap.khachHang.getId());
+            DangNhap dangNhap = new DangNhap();
+            dangNhap.setVisible(true);
+            dispose();
+        }
+    }
+
+    public void jMenuItem3ActionPerformed() {
+        DataDangNhap.khachHang = new KhachHang();
+        DangNhap dangNhap = new DangNhap();
+        dangNhap.setVisible(true);
+        dispose();
     }
 
     public static void main(String args[]) {
-        JFChuPhong chuPhong = new JFChuPhong();
+        JFKhachHang chuPhong = new JFKhachHang();
         chuPhong.setVisible(true);
     }
 
+    private JMenuItem updateItem;
+    private JMenuItem deleteItem;
+    private JMenuItem logout;
+    public static Long idPhong;
+    private List<Long> listIdKhach = new ArrayList<>();
+    private String tfTinh;
+    private String tfHuyen;
+    private String tfXa;
+    private String tfDuong;
+    private String tfSoNha;
+    private Double giaThueTu;
+    private Double giaThueDen;
+    private Integer dienTichTu;
+    private Integer dienTichDen;
+    private Long idKhach;
+    private Integer selectedRow;
+    private Object[][] data;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JCheckBox jCheckBox1;
