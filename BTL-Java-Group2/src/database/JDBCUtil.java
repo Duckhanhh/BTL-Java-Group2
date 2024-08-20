@@ -9,11 +9,11 @@ public class JDBCUtil {
         Connection connection = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String url = "jdbc:sqlserver://DESKTOP-DUCKKK:1433;database=QL_Phong;trustServerCertificate=true";
-            String user = "duckhanh2402";
-            String password = "123456aA@";
+            String url = "jdbc:sqlserver://LAPTOP-I1DSEER9\\VIETANH1:1433;database=db_java_sualan1;trustServerCertificate=true";
+            String user = "sa";
+            String password = "123456";
             connection = DriverManager.getConnection(url, user, password);
-            System.out.println("Connected to database");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -126,6 +126,7 @@ public class DialogSuaPhong extends javax.swing.JFrame {
         jLabel21.setText("Hình ảnh(link):");
 
         jCheckBox1.setText("Xóa khách hàng hiện tại");
+        jCheckBox1.addActionListener(e -> jCheckBox1ActionPerformed());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -248,7 +249,7 @@ public class DialogSuaPhong extends javax.swing.JFrame {
         Integer dienTich = jTextField12 != null && !jTextField12.getText().trim().isEmpty() ? Integer.parseInt(jTextField12.getText()) : null;
         String hinhAnh = jTextField14 != null && !jTextField14.getText().trim().isEmpty() ? jTextField14.getText() : null;
         String moTa = jTextArea1 != null && !jTextArea1.getText().trim().isEmpty() ? jTextArea1.getText() : null;
-        DiaChi diaChi = new DiaChi(null, tinh, huyen, xa, duong, soNha);
+        DiaChi diaChi = new DiaChi(null, soNha, duong, xa, huyen, tinh);
         boolean isSuccess = ChuPhongController.getInstance().suaPhong(JFChuPhong.idPhong, diaChi, gia, moTa, dienTich, hinhAnh, isXoaKhach);
         if (isSuccess) {
             JOptionPane.showMessageDialog(null, "Cập nhật thành công!");
@@ -293,6 +294,8 @@ public class DialogSuaPhong extends javax.swing.JFrame {
     private void jCheckBox1ActionPerformed() {
         if (jCheckBox1.isSelected()) {
             isXoaKhach = true;
+        } else {
+            isXoaKhach = false;
         }
     }
 

@@ -384,7 +384,7 @@ public class JFChuPhong extends javax.swing.JFrame {
             data[i][2] = phong.getGia();
             data[i][3] = phong.getDienTich();
             data[i][4] = phong.getHinhAnh();
-            data[i][5] = (phong.getKhach() == null) ? null : phong.getKhach().getHoTen();
+            data[i][5] = (phong.getKhach() == null) ? null : phong.getKhach().getEmail();
             listIdChu.add(phong.getChu().getId());
             data[i][6] = phong.getChu().getTenTaiKhoan();
         }
