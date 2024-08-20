@@ -195,6 +195,7 @@ public class DialogThemPhong extends JFrame {
 
 
         jButton2.setText("Hủy");
+        jButton2.addActionListener(evt -> jButton2ActionPerformed());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -336,9 +337,8 @@ public class DialogThemPhong extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField12ActionPerformed
 
-    private void jButton1ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
-
-
+    private void jButton2ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

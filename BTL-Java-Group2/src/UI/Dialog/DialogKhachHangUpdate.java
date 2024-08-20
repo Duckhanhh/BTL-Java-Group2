@@ -122,11 +122,15 @@ public class DialogKhachHangUpdate extends JFrame {
 
     public void jButton1ActionPerformed() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String hoten = jTextField1.getText();
-        Date ngaySinh = sdf.parse(jTextField2.getText());
-        String gioiTinh = jTextField3.getText();
-        String cccd = jTextField4.getText();
-        String soDT = jTextField5.getText();
+        String hoten = jTextField1.getText() == "" ? null : jTextField1.getText();
+        Date ngaySinh;
+        if (jTextField2.getText() == "") {
+            ngaySinh = sdf.parse(jTextField2.getText());
+        } else
+            ngaySinh = null;
+        String gioiTinh = jTextField3.getText() == "" ? null : jTextField3.getText();
+        String cccd = jTextField4.getText() == "" ? null : jTextField4.getText();
+        String soDT = jTextField5.getText() == "" ? null : jTextField5.getText();
 
         boolean isSuccess = KhachHangController.getInstance().suaKhachHang(DataDangNhap.khachHang.getId(), hoten, ngaySinh, gioiTinh, cccd, soDT);
         if (isSuccess) {

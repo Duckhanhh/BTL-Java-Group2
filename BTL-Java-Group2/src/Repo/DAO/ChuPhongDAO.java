@@ -19,7 +19,7 @@ public class ChuPhongDAO {
         try {
             Connection con = JDBCUtil.getConnection();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(" UPDATE ChuPhong SET ");
+            stringBuilder.append(" UPDATE ChuTro SET ");
 
             boolean firstField = true;
 
@@ -39,7 +39,7 @@ public class ChuPhongDAO {
             }
             if (CCCD != null) {
                 if (!firstField) stringBuilder.append(", ");
-                stringBuilder.append(" CCCD = ?");
+                stringBuilder.append(" SoCanCuocCongDan = ?");
                 firstField = false;
             }
             if (soDt != null) {
