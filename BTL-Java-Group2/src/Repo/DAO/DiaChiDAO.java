@@ -53,20 +53,21 @@ public class DiaChiDAO {
                 sql += " AND SoNha LIKE ? ";
             }
             PreparedStatement ps = con.prepareStatement(sql);
+            int idx = 1;
             if (tinh != null) {
-                ps.setString(1, tinh);
+                ps.setString(idx++, tinh);
             }
             if (huyen != null) {
-                ps.setString(2, huyen);
+                ps.setString(idx++, huyen);
             }
             if (xa != null) {
-                ps.setString(3, xa);
+                ps.setString(idx++, xa);
             }
             if (duong != null) {
-                ps.setString(4, duong);
+                ps.setString(idx++, duong);
             }
             if (soNha != null) {
-                ps.setString(5, soNha);
+                ps.setString(idx++, soNha);
             }
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
